@@ -5,9 +5,19 @@
   },
   "plugins": [
     {
-      "name": "product-process",
-      "source": "./plugins/product-process",
-      "description": "Продуктовый ресерч, продуктовая проработка и delivery-процессы: brief-writing, lean-canvas, market-research, user-story-mapping, cto-review."
+      "name": "process-core",
+      "source": "./plugins/process-core",
+      "description": "Ядро процесса: движение по фазам, состояние пайплайна, независимое ревью, критические линзы. Ставится всегда."
+    },
+    {
+      "name": "product-definition",
+      "source": "./plugins/product-definition",
+      "description": "Хребет продуктовой работы: бриф, бизнес-модель, карта историй с нарезкой на релизы, передача среза в разработку."
+    },
+    {
+      "name": "product-discovery",
+      "source": "./plugins/product-discovery",
+      "description": "Опциональный ресерч: рынок и конкуренты, персоны, симуляция custdev-интервью."
     }
   ]
 }
