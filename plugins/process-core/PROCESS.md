@@ -251,11 +251,16 @@ Delivery-трек рассчитан на изменение, у которог�
 |---|---|---|---|
 | `status` | `.process/status.md` | **committed** | коммитится — единственный файл `.process/` в git |
 | `<artifact>_draft` | `.process/<artifact>_draft.md` | scratch | игнорируется |
+| `<artifact>_review` | `.process/<artifact>_review.md` | scratch | игнорируется — гейт **продуктового** трека (`brief-review`, `story-map-review`): разреза ещё нет |
 | `test_report` | `.process/<task-id>/test_report.md` | scratch | игнорируется |
-| `<artifact>_review` | `.process/<task-id>/<artifact>_review.md` | scratch | игнорируется |
+| `<artifact>_review` | `.process/<task-id>/<artifact>_review.md` | scratch | игнорируется — гейт delivery-трека, внутри разреза |
+
+Два `<artifact>_review` — не опечатка: у одного и того же имени два пути,
+потому что продуктовый гейт происходит до того, как появился `task-id`.
+Ревьюер сам знает, к какому он принадлежит, и путь не перепутает.
 
 `status` — не «рабочий» в смысле одноразовый: см. «`status.md` коммитится» ниже.
-Здесь он рядом с черновиками и отчётами только потому, что все четыре лежат в
+Здесь он рядом с черновиками и отчётами только потому, что все лежат в
 одном каталоге `.process/` — путь один, судьба в git разная.
 
 ---
@@ -397,7 +402,7 @@ Delivery-трек рассчитан на изменение, у которог�
 | Глубина | Фазы продукта | Стык и delivery | Гейты, которые запускаются |
 |---|---|---|---|
 | `бриф и сразу код` | Только `frame` | Без `task_spec`, без документа архитектуры | Ни одного, включая `brief-review` |
-| `только хребет` | `frame` → `definition` | `handoff` со сокращённым `task_spec` — пп. 1–3, 7 и 9 (что делаем, критерии приёмки, не делаем, решено и не пересматривается, как проверим живьём), без 4–6 | `handoff-review`, `code-review` |
+| `только хребет` | `frame` → `definition` | `handoff` со сокращённым `task_spec` — пп. 1–3, 7, 8 и 9 (что делаем, критерии приёмки, не делаем, решено и не пересматривается, открытые вопросы, как проверим живьём), без 4–6 | `handoff-review`, `code-review` |
 | `полная` | Все фазы, кроме отключённых по «Опциональности discovery» | `handoff` с полным `task_spec`, документ архитектуры | Все: `brief-review`, `story-map-review`, `handoff-review`, `architecture-review`, `code-review`, `launch-check` |
 
 **Глубина перекрывает `gate:` из frontmatter скилла.** Frontmatter статичен и
