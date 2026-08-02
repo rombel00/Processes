@@ -30,6 +30,12 @@ Claude Code plugin marketplace с общими процессуальными с
 - `brief-writing` — структурированное интервью для продуктового брифа.
 - `lean-canvas` — бизнес-модель продукта на одной странице.
 - `user-story-mapping` — карта пользовательских историй с нарезкой на релизы.
+- `release-planning` — план релизов после первого среза: темы и гипотезы,
+  не задачи.
+- `handoff-spec` — перевод среза `story_map` в `task_spec` на стыке с delivery.
+- `retro` — что узнали после релиза, замыкает цикл обратно в `frame`/`discovery`.
+- Независимые ревьюеры на каждом гейте: `brief-reviewer`, `story-map-reviewer`,
+  `handoff-reviewer`.
 
 ### `product-discovery` — опционально
 

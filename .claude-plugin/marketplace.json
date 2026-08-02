@@ -12,7 +12,7 @@
     {
       "name": "product-definition",
       "source": "./plugins/product-definition",
-      "description": "Хребет продуктовой работы. Сейчас: бриф, бизнес-модель, карта историй с нарезкой на релизы."
+      "description": "Хребет продуктовой работы: бриф, бизнес-модель, карта историй, план релизов, стык с delivery (task_spec), ретро — с ревью на каждом гейте."
     },
     {
       "name": "product-discovery",
