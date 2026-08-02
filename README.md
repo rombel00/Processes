@@ -7,7 +7,7 @@ Claude Code plugin marketplace с общими процессуальными с
 > [`ARCHITECTURE.md`](ARCHITECTURE.md), карта фаз и артефактов — в
 > [`PROCESS.md`](plugins/process-core/PROCESS.md), решения по каждому скиллу — в
 > [`INVENTORY.md`](INVENTORY.md), источники — в [`SOURCES.md`](SOURCES.md),
-> шаблоны — в [`templates/`](templates/).
+> известные пробелы — в [`GAPS.md`](GAPS.md), шаблоны — в [`templates/`](templates/).
 >
 > Каркас готов, плагины наполняются. Ниже — то, что уже работает.
 
