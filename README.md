@@ -5,7 +5,8 @@ Claude Code plugin marketplace с общими процессуальными с
 
 > **Идёт пересборка в единую систему.** Контракты — в
 > [`ARCHITECTURE.md`](ARCHITECTURE.md), карта фаз и артефактов — в
-> [`PROCESS.md`](PROCESS.md), шаблоны — в [`templates/`](templates/).
+> [`PROCESS.md`](PROCESS.md), решения по каждому скиллу — в
+> [`INVENTORY.md`](INVENTORY.md), шаблоны — в [`templates/`](templates/).
 > Структура плагинов ниже описывает текущее состояние и изменится на Шаге 3.
 
 Один плагин — `product-process` (см. `plugins/product-process/`), в нём

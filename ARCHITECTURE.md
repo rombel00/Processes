@@ -67,14 +67,14 @@ Frontmatter `SKILL.md`:
 
 ```yaml
 ---
-name: scope-definition                 # = имя каталога, kebab-case
+name: user-story-mapping               # = имя каталога, kebab-case
 description: >-                        # когда применять; читает Claude Code
   ...
 phase: definition                      # одна фаза из реестра PROCESS.md
 inputs: [brief]                        # артефакты, без которых старт невозможен
-optional_inputs: [market, personas]    # улучшают результат, но не блокируют
-outputs: [scope]                       # ровно один основной артефакт
-gate: scope-review                     # чем проверяется результат; null — если гейта нет
+optional_inputs: [personas, market]    # улучшают результат, но не блокируют
+outputs: [story_map]                   # ровно один основной артефакт
+gate: story-map-review                 # чем проверяется результат; null — если гейта нет
 metadata:
   shelf: Продукт
   role: Продуктовый аналитик
@@ -332,7 +332,8 @@ JSON-вердикт — результат в рантайме.**
 
 - **Шаг 1** ✅ — [`PROCESS.md`](PROCESS.md): фазы, реестр артефактов, гейты,
   спека стыка «продукт → delivery».
-- **Шаг 2** — инвентаризация имеющихся скиллов и внешних источников.
-- **Шаг 3** — разнесение по шести плагинам.
+- **Шаг 2** ✅ — [`INVENTORY.md`](INVENTORY.md): инвентаризация имеющихся
+  скиллов и внешних источников, решение по каждой единице.
+- **Шаг 3** — разнесение по плагинам.
 </content>
 </invoke>

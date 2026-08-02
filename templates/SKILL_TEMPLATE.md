@@ -8,9 +8,9 @@ description: >-
   назвать его здесь же.
 phase: definition
 inputs: [brief]
-optional_inputs: [market]
-outputs: [scope]
-gate: scope-review
+optional_inputs: [personas]
+outputs: [story_map]
+gate: story-map-review
 metadata:
   shelf: Продукт
   role: Роль, от лица которой работает скилл

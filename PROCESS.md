@@ -44,10 +44,10 @@
 | Фаза | Вопрос, на который отвечает | Главный артефакт | Гейт |
 |---|---|---|---|
 | `frame` | Какую проблему, для кого и зачем решаем? | `brief` | `brief-review` |
-| `discovery` | Что уже есть в мире и что говорят живые люди? | `market`, `personas`, `interviews` | — |
+| `discovery` | Что уже есть в мире и что говорят живые люди? | `market`, `personas`, `interview_report` | — |
 | `strategy` | Жизнеспособно ли это и что здесь самое рискованное? | `lean_canvas` | — |
-| `definition` | Что именно строим и в каком порядке? | `story_map`, `scope`, `roadmap` | `scope-review` |
-| `design` | Как это выглядит и ощущается? | `ux_spec` | — |
+| `definition` | Что именно строим и в каком порядке? | `story_map` | `story-map-review` |
+| `design` | Как это выглядит и ощущается? | `wireframes`, `ia`, `journey_map` | — |
 
 ### Стык
 
@@ -77,7 +77,8 @@
 
 Классический delivery-пайплайн начинает с аналитика, который превращает
 расплывчатую постановку в структурированные юзер-кейсы с критериями приёмки.
-Но у нас продуктовый трек **уже это сделал** — это и есть `story_map` + `scope`.
+Но у нас продуктовый трек **уже это сделал** — это и есть `story_map` с его
+нарезкой по релизам.
 Писать после них отдельное ТЗ значит пересказывать своими словами то, что уже
 описано, и заводить второй источник правды.
 
@@ -146,12 +147,13 @@
 | `brief` | `docs/product/BRIEF.md` | committed | `frame` | почти все |
 | `market` | `docs/product/MARKET.md` | committed | `discovery` | `strategy`, `definition` |
 | `personas` | `docs/product/PERSONAS.md` | committed | `discovery` | `definition`, `design` |
-| `interviews` | `docs/product/INTERVIEWS.md` | committed | `discovery` | `strategy`, `definition` |
+| `interview_report` | `docs/product/INTERVIEWS.md` | committed | `discovery` | `strategy`, `definition` |
 | `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed | `strategy` | `definition` |
 | `story_map` | `docs/product/STORY_MAP.md` | committed | `definition` | `handoff`, `design` |
-| `scope` | `docs/product/SCOPE.md` | committed | `definition` | `handoff` |
-| `roadmap` | `docs/product/ROADMAP.md` | committed | `definition` | владелец |
-| `ux_spec` | `docs/product/UX_SPEC.md` | committed | `design` | `handoff`, `architecture` |
+| `roadmap` | `docs/product/ROADMAP.md` | committed | — (пробел, волна 2) | владелец |
+| `wireframes` | `docs/product/WIREFRAMES.md` | committed | `design` | `handoff`, `architecture` |
+| `ia` | `docs/product/IA.md` | committed | `design` | `handoff`, `architecture` |
+| `journey_map` | `docs/product/JOURNEY_MAP.md` | committed | `design` | `definition`, `design` |
 | `learnings` | `docs/product/LEARNINGS.md` | committed | `learn` | `frame`, `discovery` |
 
 ### Delivery (в разрезе задачи)
@@ -185,7 +187,7 @@
 | Гейт | Где | Что проверяет прежде всего |
 |---|---|---|
 | `brief-review` | конец `frame` | Ясна ли проблема; реалистичны ли ограничения; не решение ли записано вместо проблемы |
-| `scope-review` | конец `definition` | Целостность первого среза; покрытие сценариев; тихое расширение |
+| `story-map-review` | конец `definition` | Целостность первого среза; покрытие сценариев; тихое расширение |
 | `handoff-review` | конец `handoff` | Достаточность для строительства (чеклист выше) |
 | `architecture-review` | конец `architecture` | Соответствие `task_spec`; преждевременная сложность; совместимость с существующим |
 | `code-review` | каждая задача плана | Соответствие плану; доказательства, а не моки; регресс |
@@ -240,6 +242,8 @@
 
 ## Что дальше
 
-**Шаг 2** — инвентаризация: какой из существующих скиллов закрывает какую фазу,
-что переписать, чего не хватает, что не брать.
+**Шаг 2** ✅ — [`INVENTORY.md`](INVENTORY.md): какой скилл закрывает какую фазу,
+что переписать, чего не хватает. Оттуда же пришли правки в реестр выше.
+
+**Шаг 3** — скелет репозитория: плагины, переезд файлов, манифесты.
 </content>
