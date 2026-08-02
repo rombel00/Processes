@@ -188,29 +188,37 @@ Delivery-трек рассчитан на изменение, у которог�
 Идентификатор — то, чем оперируют `inputs`/`outputs` скиллов. Путь может
 меняться, идентификатор — нет.
 
+**Кто артефакт производит и кто потребляет, здесь не записано.** Это объявляют
+сами скиллы своим frontmatter (`phase` + `outputs` — производитель,
+`inputs`/`optional_inputs` — потребители), и вторая запись того же факта
+разъезжается с первой молча. Нужен граф — он выводится из скиллов:
+`grep -l 'personas' plugins/*/skills/*/SKILL.md`.
+
+Реестр отвечает ровно на один вопрос: **какому идентификатору какой путь**.
+
 ### Продуктовые
 
-| ID | Путь | Класс | Производит | Потребляют |
-|---|---|---|---|---|
-| `brief` | `docs/product/BRIEF.md` | committed | `frame` | почти все |
-| `market` | `docs/product/MARKET.md` | committed | `discovery` | `strategy`, `definition` |
-| `personas` | `docs/product/PERSONAS.md` | committed | `discovery` | `definition`, `design` |
-| `interview_report` | `docs/product/INTERVIEWS.md` | committed | `discovery` | `strategy`, `definition` |
-| `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed | `strategy` | `definition` |
-| `story_map` | `docs/product/STORY_MAP.md` | committed | `definition` | `handoff`, `design` |
-| `roadmap` | `docs/product/ROADMAP.md` | committed | `definition` | владелец |
-| `wireframes` | `docs/product/WIREFRAMES.md` | committed | `design` | `handoff`, `architecture` |
-| `ia` | `docs/product/IA.md` | committed | `design` | `handoff`, `architecture` |
-| `learnings` | `docs/product/LEARNINGS.md` | committed | `learn` | `frame`, `discovery` |
+| ID | Путь | Класс |
+|---|---|---|
+| `brief` | `docs/product/BRIEF.md` | committed |
+| `market` | `docs/product/MARKET.md` | committed |
+| `personas` | `docs/product/PERSONAS.md` | committed |
+| `interview_report` | `docs/product/INTERVIEWS.md` | committed |
+| `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed |
+| `story_map` | `docs/product/STORY_MAP.md` | committed |
+| `roadmap` | `docs/product/ROADMAP.md` | committed |
+| `wireframes` | `docs/product/WIREFRAMES.md` | committed |
+| `ia` | `docs/product/IA.md` | committed |
+| `learnings` | `docs/product/LEARNINGS.md` | committed |
 
 ### Delivery (в разрезе задачи)
 
-| ID | Путь | Класс | Производит | Потребляют |
-|---|---|---|---|---|
-| `task_spec` | `docs/delivery/<task-id>/TASK_SPEC.md` | committed | `handoff` | весь delivery |
-| `architecture` | `docs/delivery/<task-id>/ARCHITECTURE.md` | committed | `architecture` | `planning`, `implementation` |
-| `plan` | `docs/delivery/<task-id>/PLAN.md` | committed | `planning` | `implementation` |
-| `release_notes` | `docs/delivery/<task-id>/RELEASE.md` | committed | `launch` | владелец |
+| ID | Путь | Класс |
+|---|---|---|
+| `task_spec` | `docs/delivery/<task-id>/TASK_SPEC.md` | committed |
+| `architecture` | `docs/delivery/<task-id>/ARCHITECTURE.md` | committed |
+| `plan` | `docs/delivery/<task-id>/PLAN.md` | committed |
+| `release_notes` | `docs/delivery/<task-id>/RELEASE.md` | committed |
 
 `<task-id>` — короткий kebab-slug, уникальный в пределах продукта:
 `oplata-podpiski`, `import-csv`.

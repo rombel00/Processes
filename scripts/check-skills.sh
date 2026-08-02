@@ -35,5 +35,22 @@ while IFS= read -r agent; do
         || { echo "✗ $agent — субагент без model:"; fail=1; }
 done < <(find plugins -path '*/agents/*.md' | sort)
 
+# Каждый идентификатор артефакта в inputs/optional_inputs/outputs должен
+# существовать в реестре. Ловит опечатки и артефакты-призраки, на которые
+# скилл ссылается, а произвести их некому.
+registry="$(grep -oE '^\| `[a-z_]+` \|' plugins/process-core/PROCESS.md \
+            | tr -d '|` ' | sort -u)"
+
+while IFS= read -r skill; do
+    head="$(sed -n '2,/^---$/p' "$skill")"
+    ids="$(grep -E '^(inputs|optional_inputs|outputs):' <<<"$head" \
+           | sed -E 's/^[a-z_]+: *\[?//; s/\]$//' | tr ',' '\n' | tr -d ' ')"
+    for id in $ids; do
+        [[ -z "$id" || "$id" == "review" || "$id" == "status" ]] && continue
+        grep -qx "$id" <<<"$registry" \
+            || { echo "✗ $skill — артефакт '$id' не значится в реестре"; fail=1; }
+    done
+done < <(find plugins -name SKILL.md | sort)
+
 ((fail)) && exit 1
-echo "✓ контракт соблюдён во всех скиллах и субагентах"
+echo "✓ контракт соблюдён: ключи на месте, артефакты есть в реестре"
