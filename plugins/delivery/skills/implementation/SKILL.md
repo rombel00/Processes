@@ -7,7 +7,7 @@ description: >-
   за раз, не всем планом сразу.
 phase: implementation
 inputs: [plan, task_spec]
-optional_inputs: [architecture]
+optional_inputs: [architecture, wireframes]
 outputs: [test_report]
 gate: code-review
 metadata:
@@ -28,6 +28,13 @@ metadata:
 тем, что там написано, найдётся.
 
 Общайся на русском.
+
+## Если задача трогает UI
+
+Есть `wireframes` — сверься с ним перед тем, как проектировать интерфейс с
+нуля: структура экранов, переходы и состояния (empty/loading/error) уже
+решены на фазе `design`, придумывать их заново значит разойтись с тем, что
+уже согласовано с владельцем.
 
 ## Границы задачи — держи их
 
