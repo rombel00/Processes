@@ -11,8 +11,11 @@ metadata:
   shelf: Продукт
   role: Продуктовый аналитик
   tools: []
-inputs: [brief, personas]
+phase: definition
+inputs: [brief]
+optional_inputs: [personas, market, lean_canvas]
 outputs: [story_map]
+gate: story-map-review
 ---
 
 # User Story Mapping — карта пользовательских историй

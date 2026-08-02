@@ -10,8 +10,11 @@ metadata:
   shelf: Продукт
   role: Senior Market Research Analyst
   tools: [web_search]
+phase: discovery
 inputs: [brief]
+optional_inputs: []
 outputs: [market]
+gate: null
 ---
 
 # Market Research — глубокое исследование рынка

@@ -10,8 +10,11 @@ metadata:
   shelf: Продукт
   role: Продуктовый стратег
   tools: []
-inputs: [brief, market, personas]
+phase: strategy
+inputs: [brief]
+optional_inputs: [market, personas, interview_report]
 outputs: [lean_canvas]
+gate: null
 ---
 
 # Lean Canvas — бизнес-модель на одной странице
