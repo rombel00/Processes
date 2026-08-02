@@ -1,0 +1,13 @@
+{
+  "name": "processes",
+  "owner": {
+    "name": "rombel00"
+  },
+  "plugins": [
+    {
+      "name": "product-process",
+      "source": "./plugins/product-process",
+      "description": "Продуктовый ресерч, продуктовая проработка и delivery-процессы: brief-writing, lean-canvas, market-research, user-story-mapping, cto-review."
+    }
+  ]
+}

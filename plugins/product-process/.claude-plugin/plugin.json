@@ -1,0 +1,8 @@
+{
+  "name": "product-process",
+  "description": "Скиллы продуктовой работы, общие для всех проектов: продакт-ресерч, продуктовая проработка (brief, lean canvas, user story mapping), независимое ревью (cto-review).",
+  "version": "1.0.0",
+  "author": {
+    "name": "rombel00"
+  }
+}
