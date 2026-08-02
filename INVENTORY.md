@@ -55,7 +55,7 @@
 | Единица | Откуда | Решение |
 |---|---|---|
 | `lean-canvas` | есть (yng) | **адаптировать** — 110 строк, 9 блоков по Маурье |
-| `cognitive-biases` | файл | **адаптировать в `critique`** — линза, а не фаза. Вызов остаётся явным |
+| `cognitive-biases` | файл | **адаптировать в `process-core`** — линза, а не фаза. Вызов остаётся явным |
 
 ### `definition` → `story_map`, `roadmap`
 
@@ -167,17 +167,15 @@
 
 ---
 
-## Структурное изменение: седьмой плагин
+## Структурное изменение: `product-design` отдельным плагином
 
-Под фазу `design` набралось три самостоятельных скилла с тремя артефактами.
-В `product-definition` они не помещаются по смыслу: `product-definition` —
-обязательный хребет, а `design` в карте помечена как опциональная (продукту
-без интерфейса вайрфреймы не нужны).
+Под фазу `design` набралось три самостоятельных скилла. В `product-definition`
+они не помещаются по смыслу: `product-definition` — обязательный хребет, а
+`design` в карте помечена как опциональная (продукту без интерфейса вайрфреймы
+не нужны, а доменный пак `game-design` этот слой вообще замещает).
 
-**Предлагаю `product-design` седьмым плагином.** Это отступление от шести,
-которые мы согласовали, — но согласовывали их до того, как я прочитал
-содержимое design-скиллов. Альтернатива — сложить их в `product-definition`
-и потерять возможность не ставить.
+**Предлагаю `product-design` отдельным плагином.** Альтернатива — сложить их в
+`product-definition` и потерять возможность не ставить.
 
 Обратимо на Шаге 3 одной командой, если не согласен.
 
@@ -220,21 +218,38 @@ delivery-трек, `launch`, `learn`.
 
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
-| `process-core` | orchestrate, independent-review | — | да |
+| `process-core` | orchestrate, independent-review, cognitive-biases | — | да |
 | `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture, user-journey-map | — | нет |
 | `delivery` | architecture-design, architecture-repair, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
-| `critique` | cognitive-biases | — | рекомендуется |
-| `game-design` | — (волна 2, доменный пак) | — | по домену |
-| `legal` | — (волна 2) | — | по домену |
+| `game-design` | — (волна 2, доменный пак) | — | нет |
+| `legal` | — (волна 2) | — | нет |
 
-**25 единиц:** 5 адаптируем из имеющегося, 5 забираем у `yngchefcook`,
-5 распиливаем и адаптируем у `rdudov`, 9 пишем с нуля, 1 линза.
+**На Шаге 3 создаётся пять плагинов** — те, у которых есть содержимое.
+`game-design` и `legal` появятся в волне 2, пустых каталогов заранее не заводим.
 
-Пустых фаз не осталось. Восемь из девяти новых единиц приходятся на
-`handoff`, `launch`, `learn` и оркестрацию — то есть ровно на то, чего нет ни
-в одном из внешних источников, и что как раз и делает набор скиллов системой.
+Отдельного плагина `critique` нет: в нём был один скилл, а `premortem` и
+`red-team` — пока намерение, а не контент. Линза переезжает в `process-core`;
+если критических инструментов станет три и больше, выделим обратно. Заодно
+исчезает третье значение «рекомендуется» в колонке обязательности — оно ни на
+что не влияло, плагин либо стоит, либо нет.
+
+**26 единиц:**
+
+| Происхождение | Сколько | Что именно |
+|---|---|---|
+| Адаптируем имеющееся | 5 | brief-writing, lean-canvas, user-story-mapping, market-research, independent-review |
+| Берём у `yngchefcook` | 5 | persona-generation, persona-interview, wireframe-spec, information-architecture, user-journey-map |
+| Распиливаем и переписываем у `rdudov` | 8 | architecture-design, architecture-reviewer, architecture-repair, task-planning, implementation, code-reviewer, implementation-repair, orchestrate |
+| Пишем с нуля | 7 | brief-reviewer, release-planning, story-map-reviewer, handoff-spec, handoff-reviewer, launch-check, retro |
+| Линза | 1 | cognitive-biases |
+
+Пустых фаз не осталось. Из семи написанных с нуля единиц четыре приходятся на
+`handoff`, `launch` и `learn`; пятой фактически новой оказывается
+`orchestrate` — от источника там остаются идеи, но не текст. То есть на то,
+чего нет ни в одном внешнем источнике, приходится большая часть новой работы —
+и это ровно то, что делает набор скиллов системой.
 
 ---
 
@@ -260,6 +275,6 @@ delivery-трек, `launch`, `learn`.
 
 ## Что дальше
 
-**Шаг 3** — скелет репозитория: семь плагинов, переезд файлов, манифесты.
+**Шаг 3** — скелет репозитория: пять плагинов, переезд файлов, манифесты.
 Содержимое скиллов не трогаем.
 </content>
