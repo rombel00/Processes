@@ -9,18 +9,13 @@
 
 ## Источники
 
-| Источник | Что это | Объём | Лицензия |
-|---|---|---|---|
-| `plugins/` | Состояние репозитория на начало пересборки — один плагин `product-process` | 5 скиллов | своё |
-| [`yngchefcook/product_skills`](https://github.com/yngchefcook/product_skills) | Продуктовый discovery | 10 скиллов, 2630 строк | **нет файла лицензии**; README прямо предлагает брать и использовать |
-| [`rdudov/agents`](https://github.com/rdudov/agents) | Delivery-пайплайн | 15 промптов, 4688 строк | MIT © Ruslan Dudov |
-| `Cognitive_Biases_by_Ordinary_PM` | Линза критического анализа | 1 файл | Ivan Merkuryev / Ordinary PM |
+**Что откуда взято и на каких условиях — в [`SOURCES.md`](SOURCES.md).**
+Здесь только решения по единицам; дублировать атрибуцию нельзя, иначе следующий
+источник допишут в тот файл, куда посмотрят первым, а сверять их будет нечем.
 
-Четыре импортированных скилла **побайтово совпадают** с апстримом — расхождений
-за время использования не накопилось, можно переписывать без сверки.
-
-У `yngchefcook` формальной лицензии нет. Мы всё равно существенно переписываем
-под свой контракт, но атрибуцию сохраняем и отсутствие лицензии фиксируем явно.
+Один факт, относящийся к решениям: четыре импортированных скилла **побайтово
+совпадают** с апстримом — расхождений за время использования не накопилось,
+можно переписывать без сверки.
 
 ---
 
@@ -220,6 +215,12 @@ delivery-трек, `launch`, `learn`.
 |---|---|---|---|
 | `process-core` | orchestrate, independent-review, cognitive-biases | — | да |
 | `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
+<!-- Оба обязательны, то есть сегодня всегда ставятся вместе, и разделение
+пока не покупает гибкости установки. Обоснование — что process-core сможет
+обслуживать delivery без продуктового трека — гипотеза волны 2. Проверить
+после Шага 6: если delivery всё равно окажется зависим от product-definition,
+слить в один плагин, а не защищать разделение задним числом. -->
+
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture, user-journey-map | — | нет |
 | `delivery` | architecture-design, architecture-repair, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
