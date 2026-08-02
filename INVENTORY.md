@@ -57,11 +57,12 @@
 | `lean-canvas` | есть (yng) | **адаптировать** — 110 строк, 9 блоков по Маурье |
 | `cognitive-biases` | файл | **адаптировать в `critique`** — линза, а не фаза. Вызов остаётся явным |
 
-### `definition` → `story_map`
+### `definition` → `story_map`, `roadmap`
 
 | Единица | Откуда | Решение |
 |---|---|---|
 | `user-story-mapping` | есть (yng) | **адаптировать** — 115 строк, backbone + нарезка по релизам |
+| `release-planning` | — | **новый**, маленький. Продюсер `roadmap`: последовательность релизов за пределами первого среза |
 | `story-map-reviewer` | — | **новый** субагент |
 
 ### `design` → `wireframes`, `ia`, `journey_map`
@@ -157,9 +158,9 @@
    Заодно совпало с наименованием у `yngchefcook`.
 3. **`interviews` → `interview_report`** — имя из импортируемого скилла.
 
-**`roadmap` оставлен, но продюсера у него нет** — ни у кого нет скилла,
-который его строит. Это честный пробел, а не повод удалить артефакт: дорожная
-карта в работе реально используется. Закрывается в волне 2.
+**`roadmap` остался без продюсера** — ни в одном источнике нет скилла, который
+его строит. Пробел закрывается новым скиллом `release-planning` в волне 1:
+нарезка на релизы за пределами первого среза оказалась востребована сразу.
 
 Правки внесены в [`PROCESS.md`](PROCESS.md).
 
@@ -184,20 +185,51 @@
 
 ---
 
+## Доменный пак `game-design` (волна 2)
+
+Первый доменный пак — замещающий, а не аддитивный
+([`ARCHITECTURE.md`](ARCHITECTURE.md) §1). Каркас не трогает: фазы, гейты,
+контракты и весь delivery-трек остаются общими.
+
+Что переносится в игры **как есть:** `brief`, `market` (жанр, похожие
+адаптации, что не взлетело), `personas` (игроки), `lean_canvas`, весь
+delivery-трек, `launch`, `learn`.
+
+Что **замещается:**
+
+| Фаза | Универсальный метод | Почему не работает | Замена |
+|---|---|---|---|
+| `definition` | `user-story-mapping` | Игра — не линейный путь пользователя. «Как игрок я хочу…» разваливается на втором шаге | core loop, мета-луп, прогрессия |
+| `design` | `wireframe-spec` | Годится для меню, магазина и HUD, но не для игрового поля и не для визуального языка | арт-дирекшен + UI-слой |
+
+Что **добавляется** — специфика адаптации настольной игры: что
+автоматизировать, что упростить, чем заменить физические аффордансы
+(тактильность компонентов, чтение соперника, разговор за столом).
+
+Открытые вопросы к проектированию пака — на волну 2:
+
+- Живая проверка (пункт 9 `task_spec`) в играх — это плейтест. Нужен ли
+  отдельный скилл или достаточно записи в `task_spec`?
+- Ассеты и графика тянут за собой лицензионный вопрос. Возможно, это первый
+  реальный контент для пустого плагина `legal`.
+
+---
+
 ## Итоговый состав
 
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
 | `process-core` | orchestrate, blocker-triage, independent-review | — | да |
-| `product-definition` | brief-writing, lean-canvas, user-story-mapping, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
+| `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture, user-journey-map | — | нет |
 | `delivery` | architecture-design, architecture-repair, adr, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
 | `critique` | cognitive-biases | — | рекомендуется |
+| `game-design` | — (волна 2, доменный пак) | — | по домену |
 | `legal` | — (волна 2) | — | по домену |
 
-**26 единиц:** 5 адаптируем из имеющегося, 5 забираем у `yngchefcook`,
-6 распиливаем и адаптируем у `rdudov`, 9 пишем с нуля, 1 линза.
+**27 единиц:** 5 адаптируем из имеющегося, 5 забираем у `yngchefcook`,
+6 распиливаем и адаптируем у `rdudov`, 10 пишем с нуля, 1 линза.
 
 Пустых фаз не осталось. Восемь из девяти новых единиц приходятся на
 `handoff`, `launch`, `learn` и оркестрацию — то есть ровно на то, чего нет ни

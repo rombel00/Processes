@@ -46,7 +46,7 @@
 | `frame` | Какую проблему, для кого и зачем решаем? | `brief` | `brief-review` |
 | `discovery` | Что уже есть в мире и что говорят живые люди? | `market`, `personas`, `interview_report` | — |
 | `strategy` | Жизнеспособно ли это и что здесь самое рискованное? | `lean_canvas` | — |
-| `definition` | Что именно строим и в каком порядке? | `story_map` | `story-map-review` |
+| `definition` | Что именно строим и в каком порядке? | `story_map`, `roadmap` | `story-map-review` |
 | `design` | Как это выглядит и ощущается? | `wireframes`, `ia`, `journey_map` | — |
 
 ### Стык
@@ -64,6 +64,32 @@
 | `implementation` | Код, тесты, доказательства | код, `test_report` | `code-review` |
 | `launch` | Выпустили, работает ли вживую? | `release_notes` | `launch-check` |
 | `learn` | Что узнали и что из этого меняем? | `learnings` | — |
+
+---
+
+## Нарезка на релизы
+
+Нарезка двухуровневая, и уровни делают разные скиллы.
+
+**Первый срез** — внутри `story_map`. Walking skeleton: тонкий сквозной путь,
+дающий целостную ценность, а не половину функции. Что в него не влезло,
+остаётся в карте, но ниже линии реза.
+
+**Последовательность дальнейших релизов** — `roadmap`. Отвечает на вопрос
+«а что потом», не позволяя ответить на него в момент, когда захочется
+дописать «ну и ещё вот это» в первый релиз.
+
+### Правило детализации
+
+**Релиз N+1 и дальше описываются темами и гипотезами, а не задачами.**
+
+Детально прорабатывать релиз, до которого ещё не дошли, — способ потратить
+время на то, что почти наверняка изменится: первый релиз даст факты, которые
+переставят приоритеты. Детализация появляется в момент, когда релиз становится
+текущим, и не раньше.
+
+Гейт `story-map-review` проверяет именно тихое расширение первого среза —
+самый частый способ построить космолёт вместо самоката.
 
 ---
 
@@ -150,7 +176,7 @@
 | `interview_report` | `docs/product/INTERVIEWS.md` | committed | `discovery` | `strategy`, `definition` |
 | `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed | `strategy` | `definition` |
 | `story_map` | `docs/product/STORY_MAP.md` | committed | `definition` | `handoff`, `design` |
-| `roadmap` | `docs/product/ROADMAP.md` | committed | — (пробел, волна 2) | владелец |
+| `roadmap` | `docs/product/ROADMAP.md` | committed | `definition` | владелец |
 | `wireframes` | `docs/product/WIREFRAMES.md` | committed | `design` | `handoff`, `architecture` |
 | `ia` | `docs/product/IA.md` | committed | `design` | `handoff`, `architecture` |
 | `journey_map` | `docs/product/JOURNEY_MAP.md` | committed | `design` | `definition`, `design` |
