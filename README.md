@@ -3,8 +3,9 @@
 Claude Code plugin marketplace с общими процессуальными скиллами для всех
 моих проектов: продакт-ресерч, продуктовая проработка и delivery-процессы.
 
-> **Идёт пересборка в единую систему.** Каркас и контракты — в
-> [`ARCHITECTURE.md`](ARCHITECTURE.md), шаблоны — в [`templates/`](templates/).
+> **Идёт пересборка в единую систему.** Контракты — в
+> [`ARCHITECTURE.md`](ARCHITECTURE.md), карта фаз и артефактов — в
+> [`PROCESS.md`](PROCESS.md), шаблоны — в [`templates/`](templates/).
 > Структура плагинов ниже описывает текущее состояние и изменится на Шаге 3.
 
 Один плагин — `product-process` (см. `plugins/product-process/`), в нём
