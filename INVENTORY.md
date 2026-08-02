@@ -84,14 +84,14 @@
 Материал для добора нефункциональных требований можно взять из структуры
 аналитика `rdudov` (`02`, раздел 3), но роль другая — не автор, а переводчик.
 
-### `architecture` → `architecture`, `adr`
+### `architecture` → `architecture`
 
 | Единица | Откуда | Решение |
 |---|---|---|
 | `architecture-design` | rdudov `04`, 653 строки | **распилить** — SKILL.md ~150 + `references/` |
 | `architecture-reviewer` | rdudov `05`, 474 строки | **распилить** в субагента + `references/` |
 | `architecture-repair` | rdudov `04a`, 46 строк | **адаптировать** — полная триада только здесь и в коде |
-| `adr` | — | **новый**, маленький |
+| ~~`adr`~~ | — | **отложен**. Решения ведутся разделом внутри `architecture`; отдельный реестр заводится по триггеру первой сквозной ссылки ([`PROCESS.md`](PROCESS.md)) |
 
 ### `planning` → `plan`
 
@@ -125,8 +125,8 @@
 
 | Единица | Откуда | Решение |
 |---|---|---|
-| `orchestrate` | rdudov `01`, 729 строк | **переписать**. Идеи берём (status.md, лимит циклов, минимальный контекст, checkpoint), текст свой: у нас другие фазы, облегчённая пара и нет внешнего CLI |
-| `blocker-triage` | rdudov `10`, 80 строк | **адаптировать** под таксономию §7 |
+| `orchestrate` | rdudov `01`, 729 строк + `10`, 80 строк | **переписать**. Идеи берём (status.md, лимит циклов, минимальный контекст, checkpoint), текст свой: у нас другие фазы, облегчённая пара и нет внешнего CLI. Сюда же инлайном вливается разбор блокеров |
+| ~~`blocker-triage`~~ | rdudov `10` | **не заводить отдельным скиллом** — таксономия уже описана в `ARCHITECTURE.md` §7, второй файл пришлось бы синхронизировать. И это не методология по нашему же определению: нет шагов и структуры вывода, есть проверка по двум спискам |
 | `independent-review` | своё, `cto-review` | **распустить**. Паттерн уже вынесен в `templates/REVIEWER_TEMPLATE.md`; остаётся как generic-ревью вне гейтов, очищенное от контекста care-bot |
 
 ---
@@ -219,21 +219,41 @@ delivery-трек, `launch`, `learn`.
 
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
-| `process-core` | orchestrate, blocker-triage, independent-review | — | да |
+| `process-core` | orchestrate, independent-review | — | да |
 | `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture, user-journey-map | — | нет |
-| `delivery` | architecture-design, architecture-repair, adr, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
+| `delivery` | architecture-design, architecture-repair, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
 | `critique` | cognitive-biases | — | рекомендуется |
 | `game-design` | — (волна 2, доменный пак) | — | по домену |
 | `legal` | — (волна 2) | — | по домену |
 
-**27 единиц:** 5 адаптируем из имеющегося, 5 забираем у `yngchefcook`,
-6 распиливаем и адаптируем у `rdudov`, 10 пишем с нуля, 1 линза.
+**25 единиц:** 5 адаптируем из имеющегося, 5 забираем у `yngchefcook`,
+5 распиливаем и адаптируем у `rdudov`, 9 пишем с нуля, 1 линза.
 
 Пустых фаз не осталось. Восемь из девяти новых единиц приходятся на
 `handoff`, `launch`, `learn` и оркестрацию — то есть ровно на то, чего нет ни
 в одном из внешних источников, и что как раз и делает набор скиллов системой.
+
+---
+
+## Правки после ревью `vibe-critic`
+
+Проект Шагов 0–2 прошёл через критическое ревью на предмет раздутости
+(`.claude/agents/vibe-critic.md`, оценка избыточности 3/5). Принято пять
+находок; раздутость оказалась сосредоточена в delivery-треке — он был
+унаследован из командного пайплайна `rdudov` без пересчёта на одного человека.
+
+| Находка | Что изменилось |
+|---|---|
+| `code-review` на каждой задаче плана | Гейт сдвинут на задачу доставки целиком. Оценка полного прохода функции: было 18–20 прогонов агентов, стало 10–12 |
+| `adr` отдельным артефактом | Отложен до триггера первой сквозной ссылки |
+| Сводная таблица моделей | Убрана: источник правды — frontmatter субагента. Вместо неё политика по классам ролей |
+| `blocker-triage` отдельным скиллом | Влит в `orchestrate` |
+| «Гейт пропустить нельзя» | Смягчено: механизма принуждения нет и не планируется, ответственность на владельце |
+
+Отдельно зафиксировано как ограничение к Шагу 4: ручной, никем не
+принуждаемый запуск — свойство, а не недоделка ([`ARCHITECTURE.md`](ARCHITECTURE.md)).
 
 ---
 
