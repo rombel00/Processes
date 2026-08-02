@@ -6,8 +6,8 @@ description: >-
   когда первый срез (walking skeleton) определён и нужно решить, куда расти
   дальше, не проваливаясь в детальное планирование того, до чего ещё не дошли.
 phase: definition
-inputs: [story_map]
-optional_inputs: [lean_canvas, market]
+inputs: [brief]
+optional_inputs: [story_map, lean_canvas, market]
 outputs: [roadmap]
 gate: null
 metadata:
