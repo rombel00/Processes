@@ -46,7 +46,7 @@ while IFS= read -r skill; do
     ids="$(grep -E '^(inputs|optional_inputs|outputs):' <<<"$head" \
            | sed -E 's/^[a-z_]+: *\[?//; s/\]$//' | tr ',' '\n' | tr -d ' ')"
     for id in $ids; do
-        [[ -z "$id" || "$id" == "review" || "$id" == "status" ]] && continue
+        [[ -z "$id" ]] && continue
         grep -qx "$id" <<<"$registry" \
             || { echo "✗ $skill — артефакт '$id' не значится в реестре"; fail=1; }
     done

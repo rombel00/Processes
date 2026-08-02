@@ -9,7 +9,8 @@ description: >-
 phase: any
 inputs: []
 optional_inputs: []
-outputs: [review]
+# outputs пуст: объект ревью каждый раз разный, отчёт — scratch, не в реестре
+outputs: []
 gate: null
 metadata:
   shelf: Процесс
@@ -99,7 +100,8 @@ metadata:
 Не предлагай функции вне объёма работ. Не оценивай то, что не входит в объект
 ревью. Ответ — на русском.
 
-Запиши отчёт в .process/<имя>_review.md и верни JSON:
+Запиши отчёт в .process/<task-id>/<объект>_review.md (формат из реестра
+рабочих артефактов в PROCESS.md) и верни JSON:
 {"verdict": "approved|rework|blocked", "maturity": 0-5,
  "findings": {"critical": [], "important": [], "minor": []},
  "blocking_questions": [], "review_file": "..."}
