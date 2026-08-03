@@ -5,9 +5,34 @@
   },
   "plugins": [
     {
-      "name": "product-process",
-      "source": "./plugins/product-process",
-      "description": "Продуктовый ресерч, продуктовая проработка и delivery-процессы: brief-writing, lean-canvas, market-research, user-story-mapping, cto-review."
+      "name": "process-core",
+      "source": "./plugins/process-core",
+      "description": "Ядро процесса: карта фаз, оркестратор и независимое ревью артефакта перед закрытием шага. Ставится всегда."
+    },
+    {
+      "name": "product-definition",
+      "source": "./plugins/product-definition",
+      "description": "Хребет продуктовой работы: бриф, бизнес-модель, карта историй, план релизов, стык с delivery (task_spec), ретро — с ревью на каждом гейте."
+    },
+    {
+      "name": "product-discovery",
+      "source": "./plugins/product-discovery",
+      "description": "Опциональный ресерч: рынок и конкуренты, персоны, симуляция custdev-интервью."
+    },
+    {
+      "name": "delivery",
+      "source": "./plugins/delivery",
+      "description": "Опциональный трек разработки: архитектура, планирование, реализация, код-ревью, проверка перед выпуском."
+    },
+    {
+      "name": "product-design",
+      "source": "./plugins/product-design",
+      "description": "Опциональная фаза дизайна: текстовые вайрфреймы экранов, информационная архитектура."
+    },
+    {
+      "name": "game-design",
+      "source": "./plugins/game-design",
+      "description": "Доменный пак под игры: core loop и прогрессия вместо карты историй, визуальный язык и игровое поле вместо вайрфреймов."
     }
   ]
 }
