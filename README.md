@@ -100,13 +100,21 @@ Claude Code plugin marketplace с общими процессуальными с
   "enabledPlugins": {
     "process-core@processes": true,
     "product-definition@processes": true,
-    "product-discovery@processes": true
+    "product-discovery@processes": true,
+    "product-design@processes": true,
+    "delivery@processes": true
   }
 }
 ```
 
-Ресерч-трек можно не включать: без него процесс идёт, но выводы, которые
-опирались бы на рыночные данные, помечаются допущениями.
+Обязателен только `process-core` + `product-definition`. Остальное — по
+продукту: `product-discovery` можно не включать (без него процесс идёт, а
+выводы, которые опирались бы на рыночные данные, помечаются допущениями),
+`product-design` — если нужен визуал, `delivery` — если дальше `frame` дело
+дойдёт до кода. Для игр `game-design@processes` ставится **вместо**
+`product-design` (замещает `wireframe-spec`, доменный пак) — `game-design`
+и `product-design` вместе не нужны, если только не строите смешанный
+продукт с обычным UI-слоем сверх игры.
 
 При открытии проекта Claude Code предложит установить marketplace и плагины
 автоматически.

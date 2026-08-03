@@ -67,8 +67,9 @@ ADR нет»): скажи об этом владельцу явно, не реш
 
 ## Результат
 
-Запиши артефакт по пути `architecture` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`,
-каталог разреза — «Текущий разрез» там же) и верни:
+Запиши артефакт по пути `architecture` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`;
+`<task-id>` разреза — строка «Текущий разрез» в `.process/status.md`, не в
+реестре) и верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь architecture>"], "assumptions": [], "blocking_questions": []}
