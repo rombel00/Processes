@@ -212,6 +212,15 @@ delivery-трек, `launch`, `learn`.
   нет ни в одном источнике; вопрос откладывается до первого реального
   проекта, где он всплывёт предметно.
 
+**Роллбек (2026-08-03):** пак снят по решению владельца — система не
+строится универсальной под несколько доменов; под игры, если понадобится,
+пойдёт отдельная копия репозитория с доработкой нюансов, а не доменный пак
+внутри этого. Плагин `game-design` (`game-loop-design`, `art-direction`) и
+все перекрёстные ссылки на него в других скиллах удалены. Механизм
+«доменный пак» и критерий переносимости между доменами в `ARCHITECTURE.md`
+§0.1/§1 остаются общей возможностью репозитория — просто без активного
+примера.
+
 ---
 
 ## Итоговый состав
@@ -232,14 +241,13 @@ delivery зависит от АРТЕФАКТА task_spec (путь из рее�
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture | — | нет |
 | `delivery` | architecture-design, architecture-repair, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
-| `game-design` | game-loop-design, art-direction (доменный пак — замещает product-definition/product-design) | — | нет |
 | `legal` | — (по-прежнему нет контента ни в одном источнике) | — | нет |
 
 **Каталог плагина заводится вместе с первым своим скиллом, не заранее.**
 На Шаге 3 это три плагина — `process-core`, `product-definition`,
 `product-discovery`: только у них к этому моменту есть содержимое.
 `product-design` и `delivery` появляются в волне 2 вместе со своими скиллами,
-`game-design` и `legal` — позже.
+`legal` — позже.
 
 (Ранее здесь стояло «пять». Пересчитано по факту: у `product-design` и
 `delivery` на Шаге 3 нет ни одного скилла, а пустой каталог с манифестом,
