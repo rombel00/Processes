@@ -9,7 +9,7 @@ description: >-
   в разработку.
 phase: handoff
 inputs: [brief]
-optional_inputs: [story_map, lean_canvas, wireframes, ia]
+optional_inputs: [story_map, roadmap, lean_canvas, wireframes, ia]
 outputs: [task_spec]
 gate: handoff-review
 metadata:
@@ -48,11 +48,14 @@ metadata:
 ## Разрез (`task-id`)
 
 Один `task_spec` — один разрез: обычно Релиз 1 из `story_map` при первом
-прогоне, следующий непереданный релиз — при повторных. Если неочевидно, какой
-именно — спроси владельца, не гадай.
+прогоне. **При повторных — порядок берётся из `roadmap`, если он есть**
+(`PROCESS.md`, «Нарезка на релизы»: после первого среза порядок живёт только
+там, `story_map` за ним не переписывается). Нет `roadmap` — следующий
+непереданный релиз из нераспределённого остатка `story_map`. Если и так
+неочевидно, какой именно — спроси владельца, не гадай.
 
 `task-id` — короткий kebab-slug по теме разреза: `oplata-podpiski`,
-`import-csv`. Каталог — из реестра (шапка `.process/status.md`), не хардкодь:
+`import-csv`. Каталог — из реестра (путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`), не хардкодь:
 путь меняется, идентификатор нет.
 
 **Как только `task-id` определён, впиши его в `.process/status.md` строкой
@@ -175,6 +178,10 @@ metadata:
 ## 9. Как проверим вживую
 | Критерий приёмки | Доказательство |
 |---|---|
+
+## 10. Принятый долг
+[заполняется при закрытии `handoff-review`, если остались некритичные
+находки после лимита циклов — не заполняй заранее]
 ```
 
 ## Проверка перед выдачей
@@ -208,7 +215,7 @@ metadata:
 
 ## Результат
 
-Запиши артефакт по пути `task_spec` (реестр — шапка `.process/status.md`) и
+Запиши артефакт по пути `task_spec` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`) и
 верни:
 
 ```json

@@ -67,7 +67,7 @@ ADR нет»): скажи об этом владельцу явно, не реш
 
 ## Результат
 
-Запиши артефакт по пути `architecture` (реестр — шапка `.process/status.md`,
+Запиши артефакт по пути `architecture` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`,
 каталог разреза — «Текущий разрез» там же) и верни:
 
 ```json

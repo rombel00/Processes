@@ -87,9 +87,9 @@ metadata:
 
 ## Результат
 
-Запиши отчёт о тестировании по пути `test_report` (реестр — шапка
-`.process/status.md`; один файл на разрез — допиши к существующему, не
-создавай новый на каждую задачу) и верни:
+Запиши отчёт о тестировании по пути `test_report` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`;
+один файл на разрез — допиши к существующему, не создавай новый на каждую
+задачу) и верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь test_report>"], "assumptions": [], "blocking_questions": []}

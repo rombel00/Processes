@@ -113,7 +113,7 @@ metadata:
 
 ## Результат
 
-Запиши артефакт по пути `plan` (реестр — шапка `.process/status.md`) и верни:
+Запиши артефакт по пути `plan` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`) и верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь plan>"], "assumptions": [], "blocking_questions": []}

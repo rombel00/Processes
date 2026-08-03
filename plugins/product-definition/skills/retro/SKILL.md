@@ -8,7 +8,7 @@ description: >-
   когда накопилось достаточно сигнала, чтобы пересмотреть допущения.
 phase: learn
 inputs: [brief]
-optional_inputs: [task_spec, lean_canvas, story_map, market, release_notes]
+optional_inputs: [task_spec, lean_canvas, story_map, roadmap, market, release_notes]
 outputs: [learnings]
 gate: null
 metadata:
@@ -51,13 +51,16 @@ metadata:
 
 ## Решение: меняет ли это допущения
 
-Пройди по трём документам, если они есть, и по каждому ответь да/нет с одним
+Пройди по документам, если они есть, и по каждому ответь да/нет с одним
 предложением:
 
 - **`brief`** — проблема или пользователь оказались не теми, что думали?
 - **`lean_canvas`** — самое рискованное допущение подтвердилось или нет?
 - **`market`** — конкурентная картина изменилась, всплыл игрок, о котором не
   знали?
+- **`roadmap`** — то, что там названо следующим релизом, всё ещё имеет
+  смысл после этого цикла, или порядок надо пересматривать раньше, чем
+  «после каждого релиза» подразумевает по умолчанию?
 
 Если хотя бы один ответ «да» — это не мелкая правка, это триггер вернуться в
 `frame` или `discovery` ([`PROCESS.md`](../../../process-core/PROCESS.md),
@@ -128,8 +131,7 @@ metadata:
 
 ## Результат
 
-Допиши запись в артефакт `learnings` (реестр — путь в шапке
-`.process/status.md`) и верни:
+Допиши запись в артефакт `learnings` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`) и верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь learnings>"], "assumptions": [], "blocking_questions": []}

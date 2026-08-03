@@ -233,7 +233,15 @@ Delivery-трек рассчитан на изменение, у которог�
 | `task_spec` | `docs/delivery/<task-id>/TASK_SPEC.md` | committed |
 | `architecture` | `docs/delivery/<task-id>/ARCHITECTURE.md` | committed |
 | `plan` | `docs/delivery/<task-id>/PLAN.md` | committed |
+| `test_report` | `docs/delivery/<task-id>/TEST_REPORT.md` | committed |
 | `release_notes` | `docs/delivery/<task-id>/RELEASE.md` | committed |
+
+**`test_report` — `committed`, не `scratch`, хоть и лежит в `docs/delivery/`
+рядом с остальными.** Часть его содержимого невоспроизводима: п.9 `task_spec`
+требует для части критериев ручную проверку в реальном окружении, и «кто,
+когда, что увидел» нельзя пересобрать перезапуском теста — тот же аргумент,
+по которому `status.md` сделали `committed` вместо `scratch`. `launch-check`
+на него опирается как на факт, а не как на восстановимый черновик.
 
 `<task-id>` — короткий kebab-slug, уникальный в пределах продукта:
 `oplata-podpiski`, `import-csv`.
@@ -260,8 +268,10 @@ Delivery-трек рассчитан на изменение, у которог�
 | `status` | `.process/status.md` | **committed** | коммитится — единственный файл `.process/` в git |
 | `<artifact>_draft` | `.process/<artifact>_draft.md` | scratch | игнорируется |
 | `<artifact>_review` | `.process/<artifact>_review.md` | scratch | игнорируется — гейт **продуктового** трека (`brief-review`, `story-map-review`): разреза ещё нет |
-| `test_report` | `.process/<task-id>/test_report.md` | scratch | игнорируется |
 | `<artifact>_review` | `.process/<task-id>/<artifact>_review.md` | scratch | игнорируется — гейт delivery-трека, внутри разреза |
+
+`test_report` больше не здесь — он `committed` (см. таблицу «Delivery» выше),
+несмотря на то, что раньше жил как черновик рядом с отчётами ревью.
 
 Два `<artifact>_review` — не опечатка: у одного и того же имени два пути,
 потому что продуктовый гейт происходит до того, как появился `task-id`.

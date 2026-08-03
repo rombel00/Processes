@@ -96,7 +96,7 @@ metadata:
 
 ## Результат
 
-Запиши артефакт по пути `release_notes` (реестр — шапка `.process/status.md`)
+Запиши артефакт по пути `release_notes` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`)
 и верни:
 
 ```json
