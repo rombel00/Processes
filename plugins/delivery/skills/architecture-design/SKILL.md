@@ -71,7 +71,10 @@ ADR нет»): скажи об этом владельцу явно, не реш
 
 Запиши артефакт по пути `architecture` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`;
 `<task-id>` разреза — строка «Текущий разрез» в `.process/status.md`, не в
-реестре) и верни:
+реестре). Гейт этого артефакта — `architecture-review` (ревьюер — в таблице
+«Гейты», `PROCESS.md`); предложи его владельцу, если глубина процесса его
+требует (на «только хребет» документа `architecture` вообще не бывает —
+см. «Что означает глубина для всего трека»). Верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь architecture>"], "assumptions": [], "blocking_questions": []}

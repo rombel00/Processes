@@ -221,8 +221,9 @@ metadata:
 
 ## Результат
 
-Запиши артефакт по пути `task_spec` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`) и
-верни:
+Запиши артефакт по пути `task_spec` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`).
+Гейт этого артефакта — `handoff-review` (ревьюер — в таблице «Гейты»,
+`PROCESS.md`); предложи его владельцу, если глубина процесса его требует. Верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь task_spec>"], "assumptions": [], "blocking_questions": []}

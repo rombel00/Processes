@@ -69,7 +69,9 @@ metadata:
 ## Результат
 
 Обнови артефакт `architecture` на месте (не форкай файл) и запиши отчёт о
-починке в `.process/<task-id>/architecture_repair.md`. Верни:
+починке в `.process/<task-id>/architecture_repair.md`. Гейт этого артефакта —
+`architecture-review` (ревьюер — в таблице «Гейты», `PROCESS.md`); после
+починки — повторное ревью, не финальное «готово» мимо него. Верни:
 
 ```json
 {

@@ -75,7 +75,9 @@ metadata:
 
 В `test_report` (`committed`, не форкай файл) обнови таблицу покрытия на
 месте и допиши раздел «Принятый долг», если остался некритичный остаток.
-Отчёт о починке — в `.process/<task-id>/implementation_repair.md`. Верни:
+Отчёт о починке — в `.process/<task-id>/implementation_repair.md`. Гейт —
+`code-review` (ревьюер — в таблице «Гейты», `PROCESS.md`); после починки —
+повторное ревью. Верни:
 
 ```json
 {
