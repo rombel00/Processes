@@ -113,7 +113,11 @@ metadata:
 
 ## Результат
 
-Запиши артефакт по пути `plan` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`) и верни:
+Запиши артефакт по пути `plan` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`).
+Правишь уже принятый `plan` повторно (не первая запись, а правка уже
+принятого — например, после правки `architecture`) — отметь в «Открытые
+вопросы» `status.md`, что построено поверх старой версии и не пересмотрено
+(`PROCESS.md`, «Правила движения» п.7). И верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь plan>"], "assumptions": [], "blocking_questions": []}
