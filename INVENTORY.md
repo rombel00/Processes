@@ -50,7 +50,7 @@
 | Единица | Откуда | Решение |
 |---|---|---|
 | `lean-canvas` | есть (yng) | **адаптировать** — 110 строк, 9 блоков по Маурье |
-| `cognitive-biases` | файл | **адаптировать в `process-core`** — линза, а не фаза. Вызов остаётся явным. ⏳ Решение принято, текста ещё нет — см. «Что дальше» |
+| `cognitive-biases` | файл | **адаптировано в `process-core`** — линза, а не фаза. Вызов остаётся явным. ✅ `plugins/process-core/skills/cognitive-biases/SKILL.md` |
 
 ### `definition` → `story_map`, `roadmap`
 
@@ -218,7 +218,7 @@ delivery-трек, `launch`, `learn`.
 
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
-| `process-core` | orchestrate, independent-review, cognitive-biases ⏳ (решено, не написан) | — | да |
+| `process-core` | orchestrate, independent-review, cognitive-biases | — | да |
 | `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
 <!-- Контрольная точка со Шага 3 закрыта на Шаге 6. Гипотеза подтвердилась:
 delivery зависит от АРТЕФАКТА task_spec (путь из реестра process-core), а не
@@ -252,7 +252,7 @@ delivery зависит от АРТЕФАКТА task_spec (путь из рее�
 исчезает третье значение «рекомендуется» в колонке обязательности — оно ни на
 что не влияло, плагин либо стоит, либо нет.
 
-**26 единиц** (24 написаны; `cognitive-biases` — решение принято, текста нет;
+**26 единиц** (25 написаны как отдельные файлы;
 `user-journey-map` — методология есть, но разделом внутри
 `information-architecture`, не своим файлом, см. «Доменный пак `game-design`»
 выше):
