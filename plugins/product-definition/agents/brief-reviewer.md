@@ -4,7 +4,7 @@ description: >-
   Независимое ревью брифа на гейте brief-review, перед переходом к discovery
   или strategy. Запускается только на полной глубине процесса — на других
   глубинах этот гейт не проходится.
-tools: Read, Glob, Grep
+tools: Read, Glob, Grep, Write
 model: haiku
 ---
 

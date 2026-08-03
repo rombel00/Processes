@@ -4,7 +4,7 @@ description: >-
   Независимое ревью task_spec на гейте handoff-review — последняя проверка
   перед тем, как начнёт тратиться delivery-бюджет. Запускается на глубинах
   «только хребет» и «полная»; состав проверки зависит от глубины разреза.
-tools: Read, Glob, Grep
+tools: Read, Glob, Grep, Write
 model: haiku
 ---
 

@@ -3,7 +3,7 @@ name: architecture-reviewer
 description: >-
   Независимое ревью технической архитектуры на гейте architecture-review —
   дорогой гейт: ошибка здесь стоит на порядок больше, чем в task_spec.
-tools: Read, Glob, Grep
+tools: Read, Glob, Grep, Write
 model: opus
 ---
 

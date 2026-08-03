@@ -31,8 +31,16 @@ while IFS= read -r skill; do
 done < <(find plugins -name SKILL.md | sort)
 
 while IFS= read -r agent; do
-    grep -qE '^model:' <<<"$(sed -n '2,/^---$/p' "$agent")" \
+    head="$(sed -n '2,/^---$/p' "$agent")"
+    grep -qE '^model:' <<<"$head" \
         || { echo "✗ $agent — субагент без model:"; fail=1; }
+    # Ревьюер, который по контракту пишет review_file (ARCHITECTURE.md §6),
+    # не может это сделать без Write в allow-list tools: — весь механизм
+    # гейта тогда без следа на диске.
+    if grep -q 'review_file' "$agent" && ! grep -qE '^tools:.*\bWrite\b' <<<"$head"; then
+        echo "✗ $agent — пишет review_file, но tools: не содержит Write"
+        fail=1
+    fi
 done < <(find plugins -path '*/agents/*.md' | sort)
 
 # Каждый идентификатор артефакта в inputs/optional_inputs/outputs должен
