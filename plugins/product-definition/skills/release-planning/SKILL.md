@@ -115,8 +115,11 @@ Roadmap — рабочий документ, не обещание клиент�
 
 ## Результат
 
-Запиши артефакт по пути `roadmap` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`)
-и верни:
+Запиши артефакт по пути `roadmap` (реестр — путь `$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`).
+Правишь уже принятый `roadmap` повторно (не первая запись, а правка уже
+принятого) — отметь в «Открытые вопросы» `status.md`, что построено поверх
+старой версии и не пересмотрено (`PROCESS.md`, «Правила движения» п.7).
+Верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь roadmap>"], "assumptions": [], "blocking_questions": []}
