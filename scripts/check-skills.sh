@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # Проверяет, что каждый SKILL.md несёт обязательные ключи контракта
-# (ARCHITECTURE.md §3) и что скиллы не задают модель — она есть только
-# у субагентов (§9).
+# (ARCHITECTURE.md §3), что скиллы не задают модель — она есть только
+# у субагентов (§9), что plugins/ и marketplace.json не разошлись, и что
+# правка replaces: (доменный пак, §1) внесена симметрично.
 #
-# Не линтер: одна дешёвая проверка, которая ловит самый частый дефект —
-# скилл, добавленный мимо контракта. Запускать в конце каждой волны.
+# Не линтер: набор дешёвых проверок, которые ловят самый частый класс
+# дефекта — правку контракта в одном месте без парной правки в соседнем
+# (см. GAPS.md — этот паттерн повторялся во всех пяти кругах доп-ревью
+# после Шага 6). Запускать после правки любого SKILL.md, plugin.json или
+# marketplace.json, и в конце каждой волны.
 #
 #   ./scripts/check-skills.sh
 
@@ -68,5 +72,64 @@ while IFS= read -r skill; do
     done
 done < <(find plugins -name SKILL.md | sort)
 
+# Ориентир по размеру (ARCHITECTURE.md §10) — предупреждение, не блокер:
+# «~150» намеренно приблизительно, разбивка на references/*.md — по смыслу,
+# не по счётчику строк.
+while IFS= read -r skill; do
+    lines=$(wc -l < "$skill")
+    if ((lines > 150)); then
+        echo "⚠ $skill — $lines строк, ориентир ARCHITECTURE.md §10 ~150"
+    fi
+done < <(find plugins -name SKILL.md | sort)
+
+# plugins/ и marketplace.json — один и тот же список в обе стороны.
+# Ровно тот дефект, что вручную нашёлся и чинился при удалении game-design:
+# каталог убрали, а запись (или наоборот) забыли.
+mp_dirs="$(grep -oE '"source": *"\./plugins/[A-Za-z0-9_-]+"' .claude-plugin/marketplace.json \
+           | sed -E 's#.*/plugins/##; s/"$//' | sort -u)"
+disk_dirs="$(find plugins -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u)"
+
+while IFS= read -r d; do
+    [[ -z "$d" ]] && continue
+    grep -qx "$d" <<<"$mp_dirs" \
+        || { echo "✗ plugins/$d — есть каталог, но нет записи в marketplace.json"; fail=1; }
+done < <(echo "$disk_dirs")
+
+while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+    [[ -d "plugins/$name" ]] \
+        || { echo "✗ marketplace.json — плагин \"$name\" указан, но plugins/$name не существует"; fail=1; }
+done < <(echo "$mp_dirs")
+
+# Имя в plugin.json совпадает и с каталогом, и с marketplace.json —
+# три копии одного факта, которые молча разойдутся, если сверять нечему.
+while IFS= read -r pj; do
+    dir="$(basename "$(dirname "$(dirname "$pj")")")"
+    name="$(grep -m1 -oE '"name": *"[A-Za-z0-9_-]+"' "$pj" | sed -E 's/.*"([A-Za-z0-9_-]+)"$/\1/')"
+    if [[ "$name" != "$dir" ]]; then
+        echo "✗ $pj — name \"$name\" не совпадает с каталогом plugins/$dir"
+        fail=1
+    fi
+done < <(find plugins -path '*/.claude-plugin/plugin.json' | sort)
+
+# replaces: (доменный пак, ARCHITECTURE.md §1 / SKILL_TEMPLATE.md) должно
+# быть внесено в оба description сразу. Одностороннюю правку уже находили и
+# чинили один раз (GAPS.md) — второй раз находить дороже.
+while IFS= read -r skill; do
+    head="$(sed -n '2,/^---$/p' "$skill")"
+    replaces="$(grep -E '^replaces:' <<<"$head" | sed -E 's/^replaces: *//')"
+    [[ -z "$replaces" ]] && continue
+    this_name="$(grep -E '^name:' <<<"$head" | sed -E 's/^name: *//')"
+    target="$(find plugins -path "*/skills/$replaces/SKILL.md" | head -1)"
+    if [[ -z "$target" ]]; then
+        echo "✗ $skill — replaces: $replaces, но такого скилла нет"
+        fail=1
+        continue
+    fi
+    target_head="$(sed -n '2,/^---$/p' "$target")"
+    grep -q "$this_name" <<<"$target_head" \
+        || { echo "✗ $skill — replaces: $replaces, но description $target не упоминает \"$this_name\" (односторонняя правка)"; fail=1; }
+done < <(find plugins -name SKILL.md | sort)
+
 ((fail)) && exit 1
-echo "✓ контракт соблюдён: ключи на месте, артефакты есть в реестре"
+echo "✓ контракт соблюдён: ключи, размер, marketplace.json и replaces: на месте"

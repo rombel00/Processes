@@ -28,11 +28,6 @@
       "name": "product-design",
       "source": "./plugins/product-design",
       "description": "Опциональная фаза дизайна: текстовые вайрфреймы экранов, информационная архитектура."
-    },
-    {
-      "name": "game-design",
-      "source": "./plugins/game-design",
-      "description": "Доменный пак под игры: core loop и прогрессия вместо карты историй, визуальный язык и игровое поле вместо вайрфреймов."
     }
   ]
 }
