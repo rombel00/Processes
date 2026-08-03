@@ -216,7 +216,7 @@ delivery-трек, `launch`, `learn`.
 
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
-| `process-core` | orchestrate, independent-review, cognitive-biases | — | да |
+| `process-core` | orchestrate, independent-review, cognitive-biases ⏳ (решено, не написан) | — | да |
 | `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
 <!-- Контрольная точка со Шага 3 закрыта на Шаге 6. Гипотеза подтвердилась:
 delivery зависит от АРТЕФАКТА task_spec (путь из реестра process-core), а не
@@ -250,7 +250,10 @@ delivery зависит от АРТЕФАКТА task_spec (путь из рее�
 исчезает третье значение «рекомендуется» в колонке обязательности — оно ни на
 что не влияло, плагин либо стоит, либо нет.
 
-**26 единиц:**
+**26 единиц** (24 написаны; `cognitive-biases` — решение принято, текста нет;
+`user-journey-map` — методология есть, но разделом внутри
+`information-architecture`, не своим файлом, см. «Доменный пак `game-design`»
+выше):
 
 | Происхождение | Сколько | Что именно |
 |---|---|---|
