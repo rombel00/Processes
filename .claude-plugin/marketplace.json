@@ -12,7 +12,7 @@
     {
       "name": "product-definition",
       "source": "./plugins/product-definition",
-      "description": "Хребет продуктовой работы: бриф, бизнес-модель, карта историй, план релизов, стык с delivery (task_spec), ретро — с ревью на каждом гейте."
+      "description": "Хребет продуктовой работы: бриф по чек-листу, бизнес-модель, весь Definition (путь → эпики и скоуп → проработка по эпику), стык с delivery, ретро — с ревью на каждом гейте."
     },
     {
       "name": "product-discovery",
