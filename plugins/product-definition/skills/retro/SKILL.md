@@ -8,7 +8,7 @@ description: >-
   чтобы пересмотреть допущения.
 phase: learn
 inputs: [brief]
-optional_inputs: [lean_canvas, story_map, backlog, market, release_notes, test_report]
+optional_inputs: [lean_canvas, story_map, backlog, market, release_notes, test_report, plan]
 outputs: [learnings]
 gate: null
 metadata:
