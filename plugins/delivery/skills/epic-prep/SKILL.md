@@ -121,8 +121,9 @@ metadata:
 
 Запиши `plan` по пути из реестра (`$(dirname "${CLAUDE_PLUGIN_ROOT}")/process-core/PROCESS.md`).
 Гейт — `handoff-review`; предложи владельцу, запусти именно
-`handoff-reviewer` (не `general-purpose`), веди лимит 2 ревью, запиши
-вердикт и долг сам (`PROCESS.md`, «Правила движения» п.2). Верни:
+`handoff-reviewer` (не `general-purpose`), веди лимит **1 ревью**
+(`PROCESS.md`, «Лимит циклов»), запиши вердикт и долг сам (`PROCESS.md`,
+«Правила движения» п.2). Верни:
 
 ```json
 {"status": "done", "artifacts": ["<путь plan>"], "assumptions": [], "blocking_questions": []}
