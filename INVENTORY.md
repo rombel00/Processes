@@ -225,10 +225,17 @@ delivery-трек, `launch`, `learn`.
 
 ## Итоговый состав
 
+**Таблица ниже отражает текущее фактическое состояние** (обновлена при
+редизайне «Версия 2» — `handoff-spec`/`task-planning`/`release-planning`
+заменены `epic-prep`/`backlog`, `handoff-reviewer` переехал в `delivery`);
+комментарий про `task_spec` ниже — исторический, из эпохи до Версии 2,
+оставлен как есть (`GAPS.md` — правило append-only), `task_spec` как
+артефакт с тех пор убран.
+
 | Плагин | Скиллы | Субагенты | Обязателен |
 |---|---|---|---|
 | `process-core` | orchestrate, independent-review, cognitive-biases | — | да |
-| `product-definition` | brief-writing, lean-canvas, user-story-mapping, release-planning, handoff-spec, retro | brief-reviewer, story-map-reviewer, handoff-reviewer | да |
+| `product-definition` | brief-writing, lean-canvas, user-story-mapping, retro | brief-reviewer, story-map-reviewer | да |
 <!-- Контрольная точка со Шага 3 закрыта на Шаге 6. Гипотеза подтвердилась:
 delivery зависит от АРТЕФАКТА task_spec (путь из реестра process-core), а не
 от скиллов product-definition напрямую — ни один файл delivery не ссылается
@@ -240,7 +247,7 @@ delivery зависит от АРТЕФАКТА task_spec (путь из рее�
 
 | `product-discovery` | market-research, persona-generation, persona-interview | — | нет |
 | `product-design` | wireframe-spec, information-architecture | — | нет |
-| `delivery` | architecture-design, architecture-repair, task-planning, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer | нет |
+| `delivery` | architecture-design, architecture-repair, epic-prep, implementation, implementation-repair, launch-check | architecture-reviewer, code-reviewer, handoff-reviewer, implementation, implementation-repair | нет |
 | `legal` | — (по-прежнему нет контента ни в одном источнике) | — | нет |
 
 **Каталог плагина заводится вместе с первым своим скиллом, не заранее.**

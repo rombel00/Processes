@@ -69,7 +69,9 @@ metadata:
 ## Результат
 
 Обнови артефакт `architecture` на месте (не форкай файл) и запиши отчёт о
-починке в `.process/<task-id>/architecture_repair.md`. Гейт этого артефакта —
+починке — чинишь фундамент: `.process/architecture_repair.md`, без
+`<task-id>` (эпика ещё нет); чинишь надстройку эпика:
+`.process/<task-id>/architecture_repair.md`. Гейт этого артефакта —
 `architecture-review` (ревьюер — в таблице «Гейты», `PROCESS.md`); после
 починки — повторное ревью, не финальное «готово» мимо него. Запусти именно
 `architecture-reviewer` (не `general-purpose`), веди лимит 2 ревью, запиши
