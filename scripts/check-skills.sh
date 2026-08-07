@@ -131,5 +131,18 @@ while IFS= read -r skill; do
         || { echo "✗ $skill — replaces: $replaces, но description $target не упоминает \"$this_name\" (односторонняя правка)"; fail=1; }
 done < <(find plugins -name SKILL.md | sort)
 
+# Реестр артефактов несёт маркер "зафиксировано под process-core X.Y.Z" —
+# должен совпадать с реальной version в plugin.json. Разошлось — реестр
+# правили, версию не бампнули: механизм "другая раскладка vs пропавший
+# файл" (PROCESS.md, «Зачем строка версии») перестаёт работать молча.
+registry_marker="$(grep -oE 'зафиксировано под process-core [0-9]+\.[0-9]+\.[0-9]+' \
+                    plugins/process-core/PROCESS.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+plugin_version="$(grep -m1 -oE '"version": *"[0-9]+\.[0-9]+\.[0-9]+"' \
+                   plugins/process-core/.claude-plugin/plugin.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+if [[ -n "$registry_marker" && "$registry_marker" != "$plugin_version" ]]; then
+    echo "✗ PROCESS.md — маркер реестра ($registry_marker) разошёлся с version в plugin.json ($plugin_version)"
+    fail=1
+fi
+
 ((fail)) && exit 1
 echo "✓ контракт соблюдён: ключи, размер, marketplace.json и replaces: на месте"
