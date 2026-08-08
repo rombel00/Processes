@@ -144,5 +144,27 @@ if [[ -n "$registry_marker" && "$registry_marker" != "$plugin_version" ]]; then
     fail=1
 fi
 
+# Секреты: дешёвый скан на закоммиченные ключи/токены в самом репозитории
+# процессов (примеры в SKILL.md/шаблонах — самое вероятное место, куда
+# реальный ключ попадает случайно, когда его вставляют как «вот так
+# выглядит», а не подставляют плейсхолдер). Не претендует на полноту —
+# несколько типовых форматов, не универсальный секрет-сканер (идея из
+# AgentShield/everything-claude-code, урезанная до grep).
+secret_patterns=(
+    'AKIA[0-9A-Z]{16}'
+    'gh[pousr]_[A-Za-z0-9]{36,}'
+    'xox[baprs]-[0-9A-Za-z-]{10,}'
+    'sk-[A-Za-z0-9]{20,}'
+    '-----BEGIN[ A-Z]*PRIVATE KEY-----'
+)
+scan_targets=(plugins templates README.md ARCHITECTURE.md GAPS.md INVENTORY.md SOURCES.md)
+for pattern in "${secret_patterns[@]}"; do
+    while IFS= read -r hit; do
+        [[ -z "$hit" ]] && continue
+        echo "✗ $hit — похоже на секрет (шаблон: $pattern)"
+        fail=1
+    done < <(grep -rnE "$pattern" "${scan_targets[@]}" 2>/dev/null)
+done
+
 ((fail)) && exit 1
 echo "✓ контракт соблюдён: ключи, размер, marketplace.json и replaces: на месте"

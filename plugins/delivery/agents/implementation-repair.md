@@ -5,7 +5,7 @@ description: >-
   в основной сессии владельца. Вызывается только продюсером `implementation`
   (субагентом) после вердикта rework, не владельцем напрямую.
 tools: Read, Glob, Grep, Write, Edit, Bash, Agent
-model: opus
+model: sonnet
 ---
 
 Ты — repair-инженер, работаешь в чистом контексте, без истории диалога с
