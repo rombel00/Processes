@@ -35,8 +35,14 @@ while IFS= read -r skill; do
     # Скилл с непустым gate: обязан нести инструкцию, как его вести
     # (PROCESS.md, «Правила движения» п.3) — иначе продюсер называет гейт и
     # замолкает, а записать вердикт и посчитать цикл в моменте некому.
+    # Продюсер-субагент (implementation, implementation-repair) не ведёт
+    # гейт сам по платформенному ограничению (ARCHITECTURE.md §1, «Субагент,
+    # вызванный через Agent...») — для него эта же обязанность выражена
+    # ссылкой на «нет доступа к Agent», не на «Правила движения».
     gate_value="$(grep -E '^gate:' <<<"$head" | sed -E 's/^gate: *//')"
-    if [[ -n "$gate_value" && "$gate_value" != "null" ]] && ! grep -q 'Правила движения' "$skill"; then
+    if [[ -n "$gate_value" && "$gate_value" != "null" ]] \
+        && ! grep -q 'Правила движения' "$skill" \
+        && ! grep -qE 'нет доступа к .Agent.' "$skill"; then
         echo "✗ $skill — gate: $gate_value, но нет ссылки на «Правила движения» (кто ведёт гейт)"
         fail=1
     fi
