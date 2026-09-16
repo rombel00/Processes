@@ -13,7 +13,18 @@
 #   ./scripts/check-skills.sh
 
 set -uo pipefail
-cd "$(dirname "$0")/.."
+# Fail before pipelines: process substitution does not propagate find/grep errors.
+for tool in dirname basename find sort sed grep tr wc head; do
+    command -v "$tool" >/dev/null 2>&1 || { echo "✗ prerequisite missing: $tool" >&2; exit 2; }
+done
+cd "$(dirname "$0")/.." || exit 2
+for input in plugins templates .claude-plugin/marketplace.json plugins/process-core/PROCESS.md plugins/process-core/.claude-plugin/plugin.json README.md ARCHITECTURE.md GAPS.md INVENTORY.md SOURCES.md; do
+    [[ -r "$input" ]] || { echo "✗ required input missing/unreadable: $input" >&2; exit 2; }
+done
+skills="$(find plugins -name SKILL.md | sort)" || exit 2
+agents="$(find plugins -path '*/agents/*.md' | sort)" || exit 2
+manifests="$(find plugins -path '*/.claude-plugin/plugin.json' | sort)" || exit 2
+[[ -n "$skills" && -n "$agents" && -n "$manifests" ]] || { echo '✗ empty skill/agent/plugin inventory' >&2; exit 2; }
 
 required=(name description phase inputs outputs gate)
 fail=0
@@ -40,7 +51,7 @@ while IFS= read -r skill; do
         echo "✗ $skill — gate: $gate_value, но нет ссылки на «Правила движения» (кто ведёт гейт)"
         fail=1
     fi
-done < <(find plugins -name SKILL.md | sort)
+done <<<"$skills"
 
 while IFS= read -r agent; do
     head="$(sed -n '2,/^---$/p' "$agent")"
@@ -53,13 +64,14 @@ while IFS= read -r agent; do
         echo "✗ $agent — пишет review_file, но tools: не содержит Write"
         fail=1
     fi
-done < <(find plugins -path '*/agents/*.md' | sort)
+done <<<"$agents"
 
 # Каждый идентификатор артефакта в inputs/optional_inputs/outputs должен
 # существовать в реестре. Ловит опечатки и артефакты-призраки, на которые
 # скилл ссылается, а произвести их некому.
 registry="$(grep -oE '^\| `[a-z_]+` \|' plugins/process-core/PROCESS.md \
             | tr -d '|` ' | sort -u)"
+[[ -n "$registry" ]] || { echo '✗ empty artifact registry' >&2; exit 2; }
 
 while IFS= read -r skill; do
     head="$(sed -n '2,/^---$/p' "$skill")"
@@ -70,7 +82,7 @@ while IFS= read -r skill; do
         grep -qx "$id" <<<"$registry" \
             || { echo "✗ $skill — артефакт '$id' не значится в реестре"; fail=1; }
     done
-done < <(find plugins -name SKILL.md | sort)
+done <<<"$skills"
 
 # Ориентир по размеру (ARCHITECTURE.md §10) — предупреждение, не блокер:
 # «~150» намеренно приблизительно, разбивка на references/*.md — по смыслу,
@@ -80,7 +92,7 @@ while IFS= read -r skill; do
     if ((lines > 150)); then
         echo "⚠ $skill — $lines строк, ориентир ARCHITECTURE.md §10 ~150"
     fi
-done < <(find plugins -name SKILL.md | sort)
+done <<<"$skills"
 
 # plugins/ и marketplace.json — один и тот же список в обе стороны.
 # Ровно тот дефект, что вручную нашёлся и чинился при удалении game-design:
@@ -88,6 +100,7 @@ done < <(find plugins -name SKILL.md | sort)
 mp_dirs="$(grep -oE '"source": *"\./plugins/[A-Za-z0-9_-]+"' .claude-plugin/marketplace.json \
            | sed -E 's#.*/plugins/##; s/"$//' | sort -u)"
 disk_dirs="$(find plugins -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u)"
+[[ -n "$mp_dirs" && -n "$disk_dirs" ]] || { echo '✗ empty marketplace/plugin inventory' >&2; exit 2; }
 
 while IFS= read -r d; do
     [[ -z "$d" ]] && continue
@@ -110,7 +123,7 @@ while IFS= read -r pj; do
         echo "✗ $pj — name \"$name\" не совпадает с каталогом plugins/$dir"
         fail=1
     fi
-done < <(find plugins -path '*/.claude-plugin/plugin.json' | sort)
+done <<<"$manifests"
 
 # replaces: (доменный пак, ARCHITECTURE.md §1 / SKILL_TEMPLATE.md) должно
 # быть внесено в оба description сразу. Одностороннюю правку уже находили и
@@ -129,7 +142,7 @@ while IFS= read -r skill; do
     target_head="$(sed -n '2,/^---$/p' "$target")"
     grep -q "$this_name" <<<"$target_head" \
         || { echo "✗ $skill — replaces: $replaces, но description $target не упоминает \"$this_name\" (односторонняя правка)"; fail=1; }
-done < <(find plugins -name SKILL.md | sort)
+done <<<"$skills"
 
 # Реестр артефактов несёт маркер "зафиксировано под process-core X.Y.Z" —
 # должен совпадать с реальной version в plugin.json. Разошлось — реестр
@@ -139,7 +152,7 @@ registry_marker="$(grep -oE 'зафиксировано под process-core [0-9
                     plugins/process-core/PROCESS.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
 plugin_version="$(grep -m1 -oE '"version": *"[0-9]+\.[0-9]+\.[0-9]+"' \
                    plugins/process-core/.claude-plugin/plugin.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
-if [[ -n "$registry_marker" && "$registry_marker" != "$plugin_version" ]]; then
+if [[ -z "$registry_marker" || -z "$plugin_version" || "$registry_marker" != "$plugin_version" ]]; then
     echo "✗ PROCESS.md — маркер реестра ($registry_marker) разошёлся с version в plugin.json ($plugin_version)"
     fail=1
 fi
@@ -159,11 +172,18 @@ secret_patterns=(
 )
 scan_targets=(plugins templates README.md ARCHITECTURE.md GAPS.md INVENTORY.md SOURCES.md)
 for pattern in "${secret_patterns[@]}"; do
+    # grep exit 1 = no matches, exit >=2 = broken check, never success.
+    hits="$(grep -rnE -- "$pattern" "${scan_targets[@]}")"
+    grep_status=$?
+    if ((grep_status > 1)); then
+        echo '✗ secret scan could not run' >&2
+        exit 2
+    fi
     while IFS= read -r hit; do
         [[ -z "$hit" ]] && continue
-        echo "✗ $hit — похоже на секрет (шаблон: $pattern)"
+        echo "✗ ${hit%%:*} — похоже на секрет (значение скрыто)"
         fail=1
-    done < <(grep -rnE "$pattern" "${scan_targets[@]}" 2>/dev/null)
+    done <<<"$hits"
 done
 
 ((fail)) && exit 1
