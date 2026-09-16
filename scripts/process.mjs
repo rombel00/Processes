@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-export const ADAPTER_VERSION = '0.1.0';
+export const ADAPTER_VERSION = '0.2.0';
 const BEGIN = '<!-- processes:begin -->';
 const END = '<!-- processes:end -->';
 const LOCK = '.process/installation.json';
@@ -45,7 +45,7 @@ function block(text, begin = BEGIN, end = END) {
   return text.slice(a, b + end.length);
 }
 function managedInstructions() {
-  return `${BEGIN}\n## Processes — project working agreement\nBefore starting work, read .process/installation.json and\n.process/vendor/plugins/process-core/WORKING_AGREEMENT.md.\nRead the mapped profile, roadmap, approvals and status documents from the manifest,\nthen .process/state.json and the active package/approval when present.\nRun \`node .process/runtime/process.mjs doctor --project .\` (Node >=22).\nIf validation fails, report the problem and stop dependent work. Never infer approval.\nIf phase is checkpoint or awaiting-package, present the current result/next proposal\nand STOP for the owner's explicit instruction; do not start the next stage.\nUse .agents/skills/process-workflow/SKILL.md for onboarding, module routing and resume.\nProject documents and direct owner instructions determine the approved scope.\nRead only selected methodology as needed; installation does not authorize execution.\n${END}`;
+  return `${BEGIN}\n## Processes — project working agreement\nBefore starting work, read .process/installation.json and\n.process/vendor/plugins/process-core/WORKING_AGREEMENT.md.\nRead the mapped profile, roadmap, approvals and status documents from the manifest,\nthen .process/state.json and the active package/approval when present.\nRun \`node .process/runtime/process.mjs doctor --project .\` (Node >=22).\nIf validation fails, report the problem and stop dependent work. Never infer approval.\nIf phase is checkpoint or awaiting-package, present the current result/next proposal\nand STOP for the owner's explicit instruction; do not start the next stage.\nUse .agents/skills/process-workflow/SKILL.md for every substantive project task.\nLocate the roadmap node/parent: project framing -> stage planning -> execution step.\nDiscuss goal/DoD, approve the package, execute/check, save handoff and STOP.\nA parent's accepted plan never authorizes all children. Remind the owner at boundaries.\nDo not turn simple questions into project onboarding.\nProject documents and direct owner instructions determine the approved scope.\nRead only selected methodology as needed; installation does not authorize execution.\n${END}`;
 }
 
 export function checkApproval(bytes, record, kind) {
@@ -221,6 +221,26 @@ export function doctor(project) {
   return { ok: errors.length === 0, phase, modules, errors, warnings };
 }
 
+// Read-only cold-start index. It reports state, never grants execution permission.
+export function handoff(project) {
+  const checks = doctor(project);
+  if (!checks.ok) return { ...checks, next: 'blocked', documents: null };
+  try {
+    const root = projectRoot(project);
+    const lock = readJSON(inside(root, LOCK));
+    const state = readJSON(inside(root, '.process/state.json'));
+    const paths = { ...lock.documents };
+    if (state.package) { paths.package = state.package; paths.approval = state.approval; }
+    const documents = Object.fromEntries(Object.entries(paths).map(([role, rel]) =>
+      [role, { path: rel, sha256: sha(fs.readFileSync(inside(root, rel))) }]));
+    return { ...checks, project: root, documents,
+      next: checks.phase === 'ready' ? 'read-active-package-and-owner-approval' : 'discuss-next-node-only',
+      reminder: 'Read status for node/parent, results and open questions. Parent planning approval does not authorize child execution. STOP at the active package checkpoint.' };
+  } catch (error) {
+    return { ...checks, ok: false, errors: [...checks.errors, error.message], next: 'blocked', documents: null };
+  }
+}
+
 export function main(argv) {
   const [command, ...args] = argv, options = {};
   for (let i = 0; i < args.length; i += 2) {
@@ -228,12 +248,13 @@ export function main(argv) {
     need(!Object.hasOwn(options, args[i].slice(2)), 'Duplicate option'); options[args[i].slice(2)] = args[i + 1];
   }
   need(Number(process.versions.node.split('.')[0]) >= 22, 'Node.js >=22 is required');
-  const allowed = { inspect: ['project', 'source'], doctor: ['project'], apply: ['project', 'source', 'proposal', 'approval'], 'check-approval': ['document', 'approval', 'kind'] };
-  need(allowed[command], 'Usage: process.mjs inspect|apply|doctor|check-approval (see adapters/codex/README.md)');
+  const allowed = { inspect: ['project', 'source'], doctor: ['project'], handoff: ['project'], apply: ['project', 'source', 'proposal', 'approval'], 'check-approval': ['document', 'approval', 'kind'] };
+  need(allowed[command], 'Usage: process.mjs inspect|apply|doctor|handoff|check-approval (see adapters/codex/README.md)');
   for (const key of Object.keys(options)) need(allowed[command].includes(key), `Unknown option: ${key}`);
   let result;
   if (command === 'inspect') result = inspect(options.project || '.', options.source || path.dirname(path.dirname(fileURLToPath(import.meta.url))));
   if (command === 'doctor') { result = doctor(options.project || '.'); if (!result.ok) process.exitCode = 1; }
+  if (command === 'handoff') { result = handoff(options.project || '.'); if (!result.ok) process.exitCode = 1; }
   if (command === 'apply') {
     need(options.proposal && options.approval, 'apply needs --proposal and --approval');
     result = apply({ project: options.project || '.', source: options.source || path.dirname(path.dirname(fileURLToPath(import.meta.url))), proposalFile: options.proposal, approvalFile: options.approval });
