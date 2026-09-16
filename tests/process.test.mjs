@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { apply, doctor, inspect, sha, sourceFingerprint } from '../scripts/process.mjs';
+import { apply, doctor, handoff, inspect, sha, sourceFingerprint } from '../scripts/process.mjs';
 
 const source = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const docs = { profile: 'docs/process/PROJECT_PROFILE.md', roadmap: 'docs/process/ROADMAP.md', approvals: 'docs/process/APPROVALS.md', status: '.process/status.md' };
@@ -42,6 +42,57 @@ test('fresh install, selected modules only, offline runtime and exact repeat', t
   assert.equal(run.status, 0, run.stderr);
   assert.equal(JSON.parse(run.stdout).ok, true);
 });
+
+test('cold handoff preserves mapped context, never advances checkpoint and needs no source', t => {
+  const f = fixture(t, p => { p.documents.status = 'docs/progress.md'; });
+  apply(f.options);
+  f.write('docs/progress.md', 'Node: product.ux; parent: product; result: agreed stage plan; next: product.ux.accounts');
+  const packet = '# Stage planning\nSTOP after presenting the plan; children need their own package.';
+  f.write('docs/process/packages/UX.md', packet);
+  f.write('docs/process/approvals/UX.json', JSON.stringify({ schema: 1, kind: 'package', decision: 'approved', source: 'fixture', quote: 'synthetic only', date: '2026-09-17', sha256: sha(packet) }));
+  const state = { schema: 1, phase: 'checkpoint', package: 'docs/process/packages/UX.md', approval: 'docs/process/approvals/UX.json' };
+  f.write('.process/state.json', JSON.stringify(state));
+  const before = f.read('.process/state.json');
+  const result = handoff(f.project);
+  assert.equal(result.ok, true);
+  assert.equal(result.next, 'discuss-next-node-only');
+  assert.equal(result.documents.status.path, 'docs/progress.md');
+  assert.equal(result.documents.status.sha256, sha(f.read('docs/progress.md')));
+  assert.equal(result.documents.package.sha256, sha(packet));
+  const run = spawnSync(process.execPath, ['.process/runtime/process.mjs', 'handoff', '--project', '.'], { cwd: f.project, encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  assert.deepEqual(JSON.parse(run.stdout), result);
+  assert.equal(f.read('.process/state.json'), before);
+  assert.equal(f.read('docs/process/packages/UX.md'), packet);
+  state.phase = 'ready'; f.write('.process/state.json', JSON.stringify(state));
+  assert.equal(handoff(f.project).next, 'read-active-package-and-owner-approval');
+  f.write('docs/process/packages/UX.md', packet + '\nAlso implement all children');
+  const stale = handoff(f.project);
+  assert.equal(stale.ok, false); assert.equal(stale.next, 'blocked');
+  assert.equal(stale.documents, null);
+  const failed = spawnSync(process.execPath, ['.process/runtime/process.mjs', 'handoff', '--project', '.'], { cwd: f.project, encoding: 'utf8' });
+  assert.equal(failed.status, 1);
+});
+test('handoff fails closed if a document becomes unreadable after doctor', t => {
+  const f = fixture(t);
+  apply(f.options);
+  const before = f.read('.process/state.json');
+  const read = fs.readFileSync;
+  t.mock.method(fs, 'readFileSync', function (file, ...args) {
+    if (path.resolve(String(file)) === path.join(f.project, docs.status)) {
+      throw new Error('Synthetic read failure after doctor');
+    }
+    return read.call(this, file, ...args);
+  });
+  assert.equal(doctor(f.project).ok, true);
+  const result = handoff(f.project);
+  assert.equal(result.ok, false);
+  assert.equal(result.next, 'blocked');
+  assert.equal(result.documents, null);
+  assert.deepEqual(result.errors, ['Synthetic read failure after doctor']);
+  assert.equal(f.read('.process/state.json'), before);
+});
+
 test('existing instructions/docs preserved byte for byte; mapped docs and user edits survive repeat', t => {
   const f = fixture(t, p => { p.documents.profile = 'docs/legacy-profile.md'; });
   f.write('AGENTS.md', '# Existing\r\nKeep these instructions.\r\n');
