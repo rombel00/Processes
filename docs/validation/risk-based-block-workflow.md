@@ -8,6 +8,8 @@
 
 Ветка проверки: `codex/process-efficiency-guidance`
 
+Публикация: [PR #21](https://github.com/rombel00/Processes/pull/21)
+
 ## Результат
 
 Процесс переведён на roadmap крупных принимаемых результатов: например, весь
