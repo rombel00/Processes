@@ -70,3 +70,31 @@ test('delivery package pins inputs and records authorized derived results later'
   assert.match(agreement, /заранее разрешённые классы производных результатов/);
   assert.match(prep, /переподписывать неизменяемый пакет не нужно/);
 });
+
+test('development uses one whole-subblock code review without automatic rerun', () => {
+  const process = read('plugins/process-core/PROCESS.md');
+  const implementation = read('plugins/delivery/skills/implementation/SKILL.md');
+  const agent = read('plugins/delivery/agents/implementation.md');
+  const reviewer = read('plugins/delivery/agents/code-reviewer.md');
+  const repair = read('plugins/delivery/skills/implementation-repair/SKILL.md');
+
+  assert.match(process, /ровно один\s+раз на один разрешённый implementation-проход подблока/);
+  assert.match(process, /`code-review` \(на финальный кандидат разрешённого implementation-прохода подблока\) \| 1/);
+  assert.match(implementation, /Второй независимый\s+code-reviewer не запускается/);
+  assert.match(agent, /верни один\s+`ready_for_review`/);
+  assert.match(reviewer, /один шанс проверить готовый совокупный кандидат/);
+  assert.match(repair, /не запрашиваешь повторное\s+независимое ревью/);
+  assert.match(reviewer, /code_review_<candidate-id>\.md/);
+  assert.match(agent, /отдельно разрешённого повторного\s+открытия/);
+  assert.match(implementation, /сбрось\s+актуальный review-статус в `не начат`/);
+
+  for (const [rel, text] of [
+    ['process', process],
+    ['implementation agent', agent],
+    ['reviewer', reviewer],
+    ['repair', repair],
+  ]) {
+    assert.doesNotMatch(text, /2 (?:ревью|цикла).*code-review|code-review.*2 (?:ревью|цикла)/iu, rel);
+    assert.doesNotMatch(text, /повторн\S* `?code-reviewer`/iu, rel);
+  }
+});

@@ -1,4 +1,4 @@
-# Processes в Codex — адаптер 0.2.2
+# Processes в Codex — адаптер 0.2.3
 
 P2 принят; актуальная корректировка навигации и стоимости —
 [пакет](../../docs/plans/risk-based-block-workflow.md). Фактические проверки

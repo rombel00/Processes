@@ -22,6 +22,9 @@
 - первое сообщение проектной задачи обязано показать фактическую модель,
   рекомендуемую модель и причину; Terra — обычный ограниченный исполнитель,
   Sol — неоднозначность/интеграция, Astra — high-risk architecture/review.
+- development использует ровно один независимый code-review на финальный
+  кандидат подблока; rework закрывается repair diff, адресными тестами и
+  regression без автоматического повторного reviewer.
 
 ## Независимое ревью
 
@@ -37,6 +40,15 @@ Read-only reviewer сначала вернул `rework` по четырём P2-�
 Все находки исправлены. Финальный verdict: **approve**, оставшихся P1/P2 в
 проверенных стыках нет; reviewer файлы не менял.
 
+После уточнения бюджета code-review отдельный read-only reviewer выполнил один
+проход и вернул `rework` по трём P2: runtime сохранял прежнюю версию адаптера;
+повторно открытый defect-проход не имел нового `candidate_id`/отдельного отчёта;
+repair и orchestrator дублировали полный regression. Исправлено соответственно:
+runtime поднят до 0.2.3; новый явно разрешённый implementation-проход сбрасывает
+review-status и получает отдельный ID/отчёт; regression исполняет repair, а
+основная задача проверяет запись и повторяет только при изменении входов или
+недостоверном прогоне. Автоматический второй reviewer не запускался.
+
 ## Автоматические проверки
 
 - `node --check scripts/process.mjs` — успешно;
@@ -44,8 +56,8 @@ Read-only reviewer сначала вернул `rework` по четырём P2-�
 - `bash scripts/check-skills.sh` в Git Bash с POSIX PATH — успешно; длинные
   skills отмечены предупреждениями существующего лимита, контракт не нарушен;
 - `node --test tests/process.test.mjs tests/check-skills.test.mjs tests/iterative-block-delivery.test.mjs`
-  — 22/22 успешно;
-- адресные workflow-regression tests — 7/7 успешно после последнего исправления.
+  — финально 23/23 успешно после P2-починки;
+- адресные workflow-regression tests — финально 8/8 успешно;
 
 ## Глобальный вход
 
@@ -56,6 +68,8 @@ Read-only reviewer сначала вернул `rework` по четырём P2-�
 
 Резервная копия:
 `C:\Users\Roman\.codex\process-backups\iterative-block-delivery-2026-09-18\`.
+Перед уточнением code-review дополнительно сохранено прежнее состояние в
+`C:\Users\Roman\.codex\process-backups\single-code-review-2026-09-18\`.
 Хэш установленного `process-entry` совпадает с исходником репозитория.
 
 Подключённые продуктовые проекты не мигрировались; личные данные, prod,
@@ -66,4 +80,3 @@ Read-only reviewer сначала вернул `rework` по четырём P2-�
 - ветка: `codex/iterative-block-delivery`;
 - PR: будет добавлен после создания;
 - merge: выполняется только после зелёного финального кандидата.
-

@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-export const ADAPTER_VERSION = '0.2.2';
+export const ADAPTER_VERSION = '0.2.3';
 const BEGIN = '<!-- processes:begin -->';
 const END = '<!-- processes:end -->';
 const LOCK = '.process/installation.json';
