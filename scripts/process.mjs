@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-export const ADAPTER_VERSION = '0.2.0';
+export const ADAPTER_VERSION = '0.2.1';
 const BEGIN = '<!-- processes:begin -->';
 const END = '<!-- processes:end -->';
 const LOCK = '.process/installation.json';
@@ -45,7 +45,7 @@ function block(text, begin = BEGIN, end = END) {
   return text.slice(a, b + end.length);
 }
 function managedInstructions() {
-  return `${BEGIN}\n## Processes — project working agreement\nBefore starting work, read .process/installation.json and\n.process/vendor/plugins/process-core/WORKING_AGREEMENT.md.\nRead the mapped profile, roadmap, approvals and status documents from the manifest,\nthen .process/state.json and the active package/approval when present.\nRun \`node .process/runtime/process.mjs doctor --project .\` (Node >=22).\nIf validation fails, report the problem and stop dependent work. Never infer approval.\nIf phase is checkpoint or awaiting-package, present the current result/next proposal\nand STOP for the owner's explicit instruction; do not start the next stage.\nUse .agents/skills/process-workflow/SKILL.md for every substantive project task.\nLocate the roadmap node/parent: project framing -> stage planning -> execution step.\nDiscuss goal/DoD, approve the package, execute/check, save handoff and STOP.\nA parent's accepted plan never authorizes all children. Remind the owner at boundaries.\nDo not turn simple questions into project onboarding.\nProject documents and direct owner instructions determine the approved scope.\nRead only selected methodology as needed; installation does not authorize execution.\n${END}`;
+  return `${BEGIN}\n## Processes — project working agreement\nBefore starting work, read .process/installation.json and use\n.process/vendor/plugins/process-core/WORKING_AGREEMENT.md as the authority.\nRead section 3 for routine work; other sections only when their topic applies.\nRead the mapped profile, active roadmap block/phase, status and state in one bootstrap,\nthen only the active package/approval and dependency history when needed.\nRun \`node .process/runtime/process.mjs doctor --project .\` (Node >=22).\nIf validation fails, report the problem and stop dependent work. Never infer approval.\nIf phase is checkpoint or awaiting-package, present the current result/next proposal\nand STOP for the owner's explicit instruction; do not start the next roadmap phase.\nUse .agents/skills/process-workflow/SKILL.md for every substantive project task.\nLocate the large roadmap block (for example MVP) and its phase: framing/specification,\narchitecture/security, development, or acceptance/release. Internal phase steps stay\nin one task by default; announce a new task at the phase DoD or context breakdown.\nDiscuss goal/DoD, approve the phase package, execute/check, save handoff and STOP.\nOne phase approval never authorizes the next. Classify new ideas before changing scope.\nDo not turn simple questions into project onboarding.\nProject documents and direct owner instructions determine the approved scope.\nRead only selected methodology as needed; installation does not authorize execution.\n${END}`;
 }
 
 export function checkApproval(bytes, record, kind) {
@@ -136,7 +136,7 @@ export function apply({ project, source, proposalFile, approvalFile }) {
   const newDocs = [];
   for (const [role, rel] of Object.entries(proposal.documents)) {
     if (!fs.existsSync(inside(root, rel))) {
-      files[rel] = role === 'status' ? Buffer.from('# Состояние\n\nПроцесс подключён. Пакет работы ещё не согласован. Стоп: представить ближайший пакет владельцу.\n') : fs.readFileSync(inside(src, `plugins/process-core/templates/${TEMPLATES[role]}`));
+      files[rel] = role === 'status' ? Buffer.from('# Состояние\n\nКрупный блок / фаза: не определены.\nПроцесс подключён. Пакет работы ещё не согласован. Стоп: восстановить roadmap и представить ближайшую фазу владельцу.\n') : fs.readFileSync(inside(src, `plugins/process-core/templates/${TEMPLATES[role]}`));
       newDocs.push(rel);
     }
   }
