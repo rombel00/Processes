@@ -4,8 +4,8 @@ description: >-
   Готовит и синтезирует реальное problem discovery без подмены наблюдений AI-
   материалом и без хранения PII в Git. Используй для коммерческой hypothesis.
 phase: discovery
-inputs: [hypothesis, evidence]
-optional_inputs: [market]
+inputs: [hypothesis]
+optional_inputs: [evidence, market]
 outputs: [evidence]
 gate: null
 metadata:

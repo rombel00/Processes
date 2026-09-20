@@ -1,12 +1,5 @@
-# WP8 scenario: personal utility
+# WP8 scenario: personal utility — limitation
 
-> Дата: 2026-09-20 · route/mode: `personal utility` / `lightweight` · результат: PASS
-
-Первый ответ: «Опишем минимальный локальный прототип и личный критерий пользы;
-market/persona/offer не нужны». Вопросы: повторяемая задача, локальные данные,
-критерий экономии времени и обратимость. Пакет: короткая гипотеза → минимальный
-прототип → личная проверка.
-
-Прочитаны `OWNER_PLAYBOOK.md`, `WORKING_AGREEMENT.md`, `PROCESS.md`. STOP —
-перед подключением внешних сервисов; следующий prompt просит сформулировать
-пять проверок личной пользы. Оценка: ~510 token. Отклонений нет.
+Static contract check maps this case to `personal_utility` / `explore` with a
+personal-use criterion. It is **not** a fresh isolated session; the required
+scenario run remains pending.

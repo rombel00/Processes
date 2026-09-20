@@ -4,8 +4,8 @@ description: >-
   Регистрирует ограниченный коммерческий experiment с наблюдаемым действием,
   порогом и kill rule до его запуска. Используй перед любым offer test.
 phase: discovery
-inputs: [hypothesis, evidence]
-optional_inputs: [market]
+inputs: [hypothesis]
+optional_inputs: [evidence, market]
 outputs: [experiments]
 gate: null
 metadata:

@@ -4,8 +4,8 @@ description: >-
   Принимает коммерческое решение по заранее записанному порогу evidence и
   ограничивает следующую инвестицию. Используй после завершённого experiment.
 phase: discovery
-inputs: [hypothesis, evidence, experiments, offer]
-optional_inputs: []
+inputs: [hypothesis, evidence, experiments]
+optional_inputs: [offer]
 outputs: [commercial_decision]
 gate: evidence-review
 metadata:

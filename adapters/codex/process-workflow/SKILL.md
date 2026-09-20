@@ -45,11 +45,12 @@ Delivery может выполнять несколько связанных п�
 В передаче оставь фактические папку/worktree, репозиторий, ветку/commit,
 незакоммиченные изменения и окружение для проверки следующей сессией.
 
-Перед коммерческой работой паспорт также содержит `route` (`raw idea`,
-`business request`, `existing product change` или `personal utility`), `mode`
-(`commercial`/`lightweight`), уровень доказательств и риск. Не составляй
-roadmap полноценной разработки, пока `commercial-decision` не сравнил результат
-с заранее записанным порогом. Практические промты и примеры — в
+Перед коммерческой работой паспорт также содержит `work_type`
+(`commercial_hypothesis`, `business_request`, `existing_product_change` или
+`personal_utility`), `execution_mode` (`explore`, `experiment`, `build` или
+`high_risk`), уровень доказательств и риск. Не составляй roadmap полноценной
+разработки, пока `commercial-decision` не сравнил результат с заранее записанным
+порогом. Практические промты и примеры — в
 `OWNER_PLAYBOOK.md` исходника.
 
 ## Подключение впервые

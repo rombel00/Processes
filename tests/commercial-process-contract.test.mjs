@@ -4,7 +4,7 @@ import test from "node:test";
 
 test("owner playbook covers routes and decision boundary", () => {
   const text = readFileSync("OWNER_PLAYBOOK.md", "utf8");
-  for (const route of ["raw idea", "business request", "existing product change", "personal utility"]) {
+  for (const route of ["commercial_hypothesis", "business_request", "existing_product_change", "personal_utility"]) {
     assert.match(text, new RegExp(route));
   }
   assert.match(text, /commercial-decision/);

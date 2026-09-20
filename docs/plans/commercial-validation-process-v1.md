@@ -1,6 +1,6 @@
 # План развития репозитория Processes: от идеи и запроса до доказательств, продаж и delivery
 
-Статус: implementation complete — awaiting owner acceptance
+Статус: rework in progress after final review
 Целевой репозиторий: `rombel00/Processes`
 Исходная точка анализа: `main`, commit `c253e35`
 Редакция change plan: 1.1 — уточнены architecture impact, model routing и

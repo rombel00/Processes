@@ -1,12 +1,5 @@
-# WP8 scenario: business request
+# WP8 scenario: business request — limitation
 
-> Дата: 2026-09-20 · route/mode: `business request` / `commercial` · результат: PASS
-
-Первый ответ: «Свяжем запрос с сегментом, болью и наблюдаемой метрикой; sales
-evidence не требуется по умолчанию». Вопросы: кто просит, как часто возникает
-задача, что измеряет успех. Пакет: ценностная гипотеза → desk/field evidence
-по необходимости → decision.
-
-Прочитаны `OWNER_PLAYBOOK.md`, `PROCESS.md`, `commercial-decision/SKILL.md`.
-STOP — перед изменением продукта; следующий prompt просит зафиксировать
-критерий пользы. Оценка: ~620 token. Отклонений нет.
+Static contract check maps this case to `business_request` / `explore` with
+sponsor acceptance and measurable outcome, not sales evidence. It is **not** a
+fresh isolated session; the required scenario run remains pending.

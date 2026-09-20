@@ -233,10 +233,11 @@ Claude-путь остаётся прежним marketplace. Его инстру
 
 ## Маршрут, модель и передача
 
-Для нового запроса сначала укажите `route`, `mode`, доказательства и риск:
-`raw idea`, `business request`, `existing product change` или `personal utility`;
-режим — `commercial` либо `lightweight`. Коммерческий маршрут не создаёт
-roadmap разработки, пока нет решения на основе заранее указанного порога.
+Для нового запроса сначала укажите `work_type`, `execution_mode`, доказательства
+и риск: `commercial_hypothesis`, `business_request`,
+`existing_product_change` или `personal_utility`; режим — `explore`,
+`experiment`, `build` или `high_risk`. Коммерческий маршрут не создаёт roadmap
+разработки, пока нет решения на основе заранее указанного порога.
 Короткий практический вход и примеры — в [OWNER_PLAYBOOK](../../OWNER_PLAYBOOK.md).
 
 Sol/high ведёт неоднозначную постановку, архитектурные развилки и интеграцию;
