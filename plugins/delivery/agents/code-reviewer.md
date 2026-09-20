@@ -126,3 +126,12 @@ model: opus
 ```
 
 Ответ — на русском.
+
+## Security exception
+
+Для auth, денег, PII/секретов, миграций, публичных входов, внешних интеграций
+и необратимых действий сверяй
+[`../references/security-and-handoff.md`](../references/security-and-handoff.md).
+Критичная security/data-находка не закрывается одной самопроверкой rework:
+после исправления нужен ещё один независимый security-review с точным diff и
+доказательствами. Внешний доступ, production и миграция без human gate — 🔴.

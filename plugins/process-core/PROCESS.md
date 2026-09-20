@@ -10,7 +10,7 @@
 > Все пути в этом документе — пути **в репозитории продукта**, над которым идёт
 > работа, а не в репозитории процессов.
 
-> **Общий договор, process-core 0.9.5.** Сначала читать
+> **Общий договор, process-core 0.10.1.** Сначала читать
 > [общий договор](WORKING_AGREEMENT.md): интервью, выбор модулей,
 > согласование плана и логики, последовательность, Git и допуск версии в прод.
 > Он действует и при прямом вызове отдельного скилла. Карта ниже — полный
@@ -34,7 +34,19 @@
 ## Карта
 
 ```
-FRAME
+INTAKE
+  восстановить контекст → определить work_type и execution_mode → назвать
+  самый дорогой риск и минимальный следующий результат
+    ├─ commercial_hypothesis: hypothesis → problem/offer evidence →
+    │  commitment attempt → commercial decision → build только после gate
+    ├─ business_request: sponsor/user clarification → baseline →
+    │  buy/configure/build decision → delivery → impact
+    ├─ existing_product_change: restore baseline → classify → target metric →
+    │  experiment или delivery → post-change evidence
+    └─ personal_utility: current cost → smallest utility → repeated use →
+       keep/extend/stop
+
+FULL PRODUCT/BUILD ROUTE
   frame ── 🚪 brief-review
     │
     ▼
@@ -81,7 +93,13 @@ LEARN — retro, владелец решает: свой скоуп или RICE-
   🚪 — гейт (пара producer → reviewer, независимый ревьюер + владелец отдельно)
 ```
 
-Петля не обязана возвращаться в `frame`: после первого релиза путь (backbone)
+Выбор маршрута и режима предшествует любой полной карте разработки. Для
+`explore` и `experiment` без кода не создавать технический фундамент, delivery
+или launch ради формы. Для `build` остаётся действующим маршрут ниже; для
+`high_risk` применяются дополнительные security и human gates из общего
+договора. Коммерческий build требует `commercial_decision` со статусом `build`
+либо честный `owner_override` с ограниченным бюджетом риска. Петля не обязана
+возвращаться в `frame`: после первого релиза путь (backbone)
 обычно не пересматривается. Новый scope адресно обновляет A/B, фундамент — только
 если меняются его границы, затем каждый подблок проходит C just-in-time.
 Пересмотр пути целиком — по явному решению владельца, не автоматика.
@@ -185,19 +203,22 @@ project_profile, не решается каждым скиллом заново.
 адресно; это возврат по находке, а не обязательный дополнительный круг для
 каждого эпика.
 
-**Триггер фундамента — принятый тонкий scope A/B.** После B
-`user-story-mapping` предлагает отдельную задачу `architecture-design` и
-останавливается. Итерационная delivery не начинается, пока фундамент/дельта
-блока не прошёл применимый архитектурный гейт.
+**После принятого thin scope A/B агент сначала выполняет architecture impact
+по канонической матрице WORKING_AGREEMENT §3.** `foundation_not_required`
+закрывает локальный/ручной результат с причиной; `foundation_required` ведёт к
+минимальному foundation; `covered_by_foundation` сохраняет обоснование;
+`delta_required` создаёт адресную дельту; `blocked` останавливает зависимую
+работу. Только требующий foundation build ждёт архитектурный гейт.
 
-После детального C текущего подблока выполняется impact check по триггерам из
-WORKING_AGREEMENT §3. Без триггеров и конкретного вопроса фиксируется
-`covered_by_foundation` с `assessment: local-no-trigger-check`, и субагент не
-вызывается. При конкретном
-вопросе или триггере `architecture-advisor` даёт read-only заключение и может
-вернуть `covered_by_foundation` с `assessment: architecture-advisor`. Только `delta_required`
-запускает `architecture-design` в режиме адресной дельты и `architecture-review`;
-после принятия итерация продолжается с `epic-prep`.
+После детального C текущего build-подблока повторяется та же матрица
+WORKING_AGREEMENT §3. Без trigger сохранить `covered_by_foundation` с
+`assessment: local-no-trigger-check`; при конкретном question/trigger read-only
+`architecture-advisor` может подтвердить `covered_by_foundation`. Только
+`delta_required` запускает `architecture-design` в режиме адресной дельты и
+`architecture-review`; `foundation_not_required`, `foundation_required` и
+`blocked` следуют своим действиям из канонической матрицы, а не молча
+преобразуются в delivery. После принятия применимого результата итерация
+продолжается с `epic-prep`.
 
 ### Delivery — по эпику
 
@@ -292,18 +313,14 @@ Independent-ревью технических гейтов выполняетс�
 содержательный запуск на ограниченный подблок. Цена проверки привязана к
 риску, а не к числу внутренних задач.
 
-**Архитектурный impact подблока** фиксируется до `epic-prep`:
-- **`covered_by_foundation`** — фундамент полностью покрывает подблок. При
-  отсутствии триггеров и конкретного вопроса запись имеет
-  `assessment: local-no-trigger-check`; при наличии вопроса или триггера —
-  `assessment: architecture-advisor` и обоснование advisor.
-  Дельта и `architecture-review` не нужны в обоих случаях.
-- **`delta_required`** — read-only `architecture-advisor` подтвердил влияние на
-  данные/миграции, auth/права, деньги/PII, интеграцию, конкурентность/
-  идемпотентность, инфраструктуру/НФТ или межподблочный контракт. Дельту пишет
-  `architecture-design`, затем она проходит `architecture-review`.
-- **`blocked`** — не хватает продуктового решения или принятый фундамент
-  противоречит срезу; зависимая реализация остановлена.
+**Architecture impact** фиксируется после thin scope и до `epic-prep` каждого
+build-подблока. Единственный алгоритм, факторы, пять verdict и следующий шаг
+находятся в WORKING_AGREEMENT §3 «Evidence, architecture impact и внешние
+действия». Здесь сохраняется только timing: `covered_by_foundation` содержит
+`assessment: local-no-trigger-check` либо `architecture-advisor`; только
+`delta_required` создаёт дельту и `architecture-review`; `blocked` останавливает
+зависимую реализацию. Advisor не обязателен по одному факту trigger и не
+проектирует дельту.
 
 **Задача `plan`** (`epic-prep`, нарезка на задачи) — так же, значимость с причиной:
 - **Существенная** — авторизация/доступ/деньги/PII, что-то из чек-листа
@@ -422,7 +439,7 @@ A/B для изменения scope, затем в дельту фундамен
 
 ## Реестр артефактов
 
-<!-- зафиксировано под process-core 0.9.5 — поменял таблицы ниже, бампни
+<!-- зафиксировано под process-core 0.10.1 — поменял таблицы ниже, бампни
      версию в plugins/process-core/.claude-plugin/plugin.json и это число
      тем же проходом (PROCESS.md, «Зачем строка версии») -->
 
@@ -464,6 +481,7 @@ A/B для изменения scope, затем в дельту фундамен
 | `market` | `docs/product/MARKET.md` | committed |
 | `personas` | `docs/product/PERSONAS.md` | committed |
 | `interview_report` | `docs/product/INTERVIEWS.md` | committed |
+| `synthetic_customer_critique` | `.process/synthetic_customer_critique.md` | scratch |
 | `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed |
 | `story_map` | `docs/product/STORY_MAP.md` | committed |
 | `backlog` | `docs/product/BACKLOG.md` | committed |
@@ -471,6 +489,24 @@ A/B для изменения scope, затем в дельту фундамен
 | `ia` | `docs/product/IA.md` | committed |
 | `visual_design` | `docs/product/VISUAL_DESIGN.md` (токены + разделы по эпикам); прототипы экранов — `docs/product/design/prototypes/` | committed |
 | `learnings` | `docs/product/LEARNINGS.md` | committed |
+
+### Validation и route decisions
+
+| ID | Путь | Класс |
+| --- | --- | --- |
+| `hypothesis` | `docs/product/HYPOTHESIS.md` | committed |
+| `evidence` | `docs/product/EVIDENCE.md` | committed |
+| `experiments` | `docs/product/EXPERIMENTS.md` | committed |
+| `offer` | `docs/product/OFFER.md` | committed |
+| `commercial_decision` | `docs/product/COMMERCIAL_DECISION.md` | committed |
+| `business_outcome` | `docs/product/BUSINESS_OUTCOME.md` | committed |
+| `utility_contract` | `docs/product/UTILITY_CONTRACT.md` | committed |
+
+Эти артефакты создаются только в применимом маршруте. `evidence` отделяет
+неизменяемые наблюдения от интерпретаций; synthetic/AI material имеет только
+уровень `assumption` и не является field evidence. Commercial validation
+добавляет их как отдельный модуль, а не расширяет обязательный core каждого
+проекта.
 
 **Roadmap и backlog отвечают на разные вопросы.** Roadmap хранит выбранные
 этапы, зависимости, внутренний план и DoD. Backlog — невыбранные идеи и эпики,
@@ -498,7 +534,7 @@ A/B для изменения scope, затем в дельту фундамен
 | ID | Путь | Класс |
 |---|---|---|
 | `architecture` | `docs/delivery/ARCHITECTURE.md` (фундамент) + `docs/delivery/<task-id>/ARCHITECTURE.md` (только реальная дельта текущего подблока) | committed |
-| `architecture_impact` | `.process/<task-id>/architecture_impact.md` (`covered_by_foundation`, `delta_required` или `blocked`) | scratch |
+| `architecture_impact` | `.process/<task-id>/architecture_impact.md` (один из пяти verdict WORKING_AGREEMENT §3; для thin scope без task-id — `.process/architecture_impact.md`) | scratch |
 | `plan` | `docs/delivery/<task-id>/PLAN.md` | committed |
 | `test_report` | `docs/delivery/<task-id>/TEST_REPORT.md` | committed |
 | `release_notes` | `docs/delivery/RELEASE.md` | committed |
@@ -634,6 +670,7 @@ immutable-артефакт (WORKING_AGREEMENT, раздел 5). Само сли�
 | `brief-review` | конец `frame` | `brief-reviewer` | Закрыт ли чек-лист брифа целиком; реалистичны ли ограничения; не решение ли записано вместо проблемы |
 | `story-map-review` | конец каждого эпика в Definition, этап C | `story-map-reviewer` | Целостность и охват именно этого эпика; сценарии и эдж-кейсы не поверхностны; тихое расширение скоупа |
 | `architecture-review` | конец фундамента; конец адресной дельты, только после `delta_required` | `architecture-reviewer` | Соответствие scope/фундаменту; преждевременная сложность; совместимость; безопасность |
+| `evidence-review` | commercial decision после experiment | `evidence-reviewer` | Уровни evidence, неизменность threshold, отрицательные данные и допустимость следующей инвестиции |
 | `handoff-review` | конец `epic-prep` | `handoff-reviewer` | Задачи полностью специфицированы; impact-триггеры не пропущены; фундамент/дельта достаточны; значимость задач правдоподобна |
 | `code-review` | один раз на финальном кандидате каждого разрешённого implementation-прохода подблока после всех задач и regression | `code-reviewer` | Соответствие всему `plan`; реальность доказательств; high-risk зоны существенных задач; регресс и безопасность |
 | `launch-check` | перед выпуском релиза | — (самопроверка внутри скилла) | Доказательства и откат; отдельный допуск точной версии; выкладка и проверка фактической версии |

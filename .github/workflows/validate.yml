@@ -1,0 +1,23 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main, "codex/**"]
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --check scripts/process.mjs
+      - run: node --check scripts/check-repository.mjs
+      - run: node scripts/check-repository.mjs
+      - run: node --test tests/*.mjs
+      - run: bash scripts/check-skills.sh
+      - run: git diff --check HEAD^

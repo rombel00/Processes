@@ -95,6 +95,17 @@
 baseline и рискованные финансовые изменения, не перенося их максимальную цену
 на каждую read-only инвентаризацию или рутинную правку.
 
+### Route-first и один владелец нормы
+
+Перед выбором метода процесс классифицирует работу как `commercial_hypothesis`,
+`business_request`, `existing_product_change` или `personal_utility` и выбирает
+`explore`, `experiment`, `build` либо `high_risk`. Карта маршрутов и реестр
+артефактов принадлежат `process-core/PROCESS.md`; правила evidence, architecture
+impact, внешних действий, completion и infrastructure lifecycle —
+`process-core/WORKING_AGREEMENT.md`. Skills ссылаются на эти источники вместо
+копирования нормы. Это сохраняет лёгкий путь без delivery-гейтов и не ослабляет
+approval/installation/handoff contracts адаптеров.
+
 ---
 
 ## 1. Словарь

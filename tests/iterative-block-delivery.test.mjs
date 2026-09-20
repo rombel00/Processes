@@ -7,14 +7,19 @@ import { fileURLToPath } from 'node:url';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 
-test('process routes thin scope to foundation before just-in-time subblocks', () => {
+test('process routes thin scope and subblocks through the canonical impact matrix', () => {
   const process = read('plugins/process-core/PROCESS.md');
+  const agreement = read('plugins/process-core/WORKING_AGREEMENT.md');
   assert.match(process, /тонкий scope/);
   assert.match(process, /ФУНДАМЕНТ АРХИТЕКТУРЫ\/БЕЗОПАСНОСТИ/);
   assert.match(process, /для каждого подблока:/);
   assert.match(process, /architecture-advisor \(read-only\)/);
-  assert.match(process, /Без триггеров и конкретного вопроса фиксируется/);
-  assert.match(process, /Только `delta_required`/);
+  assert.match(process, /После принятого thin scope A\/B агент сначала выполняет architecture impact/);
+  assert.match(process, /та же матрица\s+WORKING_AGREEMENT §3/);
+  assert.match(agreement, /`foundation_not_required`/);
+  assert.match(agreement, /`foundation_required`/);
+  assert.match(agreement, /`covered_by_foundation`/);
+  assert.match(agreement, /только\s+`delta_required`/i);
 });
 
 test('project entry announces actual and recommended model with reason', () => {

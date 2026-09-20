@@ -8,7 +8,7 @@ description: >-
   чтобы пересмотреть допущения.
 phase: learn
 inputs: [brief]
-optional_inputs: [lean_canvas, story_map, backlog, market, release_notes, test_report, plan]
+optional_inputs: [lean_canvas, story_map, backlog, market, release_notes, test_report, plan, evidence, commercial_decision]
 outputs: [learnings]
 gate: null
 metadata:
@@ -36,6 +36,10 @@ metadata:
 связь, неожиданное поведение при разработке (то, что архитектор или
 разработчик заметили, но не могли решить сами — см. `PROCESS.md`, класс блокеров
 «решения владельца»).
+
+Если route — `commercial_hypothesis`, прочитай `evidence` и
+`commercial_decision`: обнови их фактами learn, не повышай evidence level
+самостоятельно и не переписывай preregistered thresholds задним числом.
 
 ## Не путай факт с интерпретацией
 

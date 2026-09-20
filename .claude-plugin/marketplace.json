@@ -20,6 +20,11 @@
       "description": "Опциональный ресерч: рынок и конкуренты, персоны, симуляция custdev-интервью."
     },
     {
+      "name": "commercial-validation",
+      "source": "./plugins/commercial-validation",
+      "description": "Проверка коммерческой гипотезы: реальные evidence, preregistered experiments, offer и decision до build."
+    },
+    {
       "name": "delivery",
       "source": "./plugins/delivery",
       "description": "Опциональный трек разработки: фундамент, impact по триггерам, адресные дельты, планирование, реализация, review и выпуск."
