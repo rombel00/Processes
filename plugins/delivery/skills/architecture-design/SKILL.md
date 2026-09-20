@@ -24,6 +24,8 @@ metadata:
 Полный чек-лист структуры, правило простоты, требования к модели данных,
 безопасность и критерии ревью — в [`references/checklist.md`](references/checklist.md).
 Прочитай его перед началом, не пересказывай по памяти.
+Для high-risk, human gate и передачи также прочитай
+[`../../references/security-and-handoff.md`](../../references/security-and-handoff.md).
 
 Общайся на русском.
 

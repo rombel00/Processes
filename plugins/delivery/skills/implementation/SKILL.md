@@ -243,3 +243,13 @@ implementation для любой значимости; значимость оп
 `blocking_questions`), или прямое «стоп» с объяснением в диалоге при
 прямом вызове.
 </content>
+
+## Security и handoff
+
+Для high-risk работы прочитай
+[`../../references/security-and-handoff.md`](../../references/security-and-handoff.md)
+до изменения. В отчёте фиксируй threat sketch, проверку зависимостей/лицензий и
+секретов, backup/restore, мониторинг и rollback, если применимо. Не выполняй
+внешнее, production, миграционное или необратимое действие без отдельного
+human gate. Критичная security/data-находка после rework требует нового
+независимого security-review.
