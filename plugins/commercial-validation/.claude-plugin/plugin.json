@@ -1,0 +1,8 @@
+{
+  "name": "commercial-validation",
+  "description": "Проверка коммерческой гипотезы через реальные evidence, ограниченные эксперименты и честное решение до build.",
+  "version": "0.1.0",
+  "author": {
+    "name": "rombel00"
+  }
+}
