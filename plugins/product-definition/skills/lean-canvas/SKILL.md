@@ -125,7 +125,8 @@ North Star Metric · метрики по воронке (Activation/Retention/Re
 
 ## Применимость
 
-Lean Canvas — карта гипотез, а не бизнес-план. Он показывает, что проверять в первую очередь;
+Lean Canvas — карта гипотез, а не бизнес-план и не build gate. Для commercial
+route каждый hypothesis ID ссылается на `HYPOTHESIS.md` и `EXPERIMENTS.md`;
 цифры и модель монетизации требуют валидации на реальных клиентах.
 
 ## Примеры

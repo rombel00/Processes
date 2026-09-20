@@ -10,7 +10,7 @@
 > Все пути в этом документе — пути **в репозитории продукта**, над которым идёт
 > работа, а не в репозитории процессов.
 
-> **Общий договор, process-core 0.10.0.** Сначала читать
+> **Общий договор, process-core 0.10.1.** Сначала читать
 > [общий договор](WORKING_AGREEMENT.md): интервью, выбор модулей,
 > согласование плана и логики, последовательность, Git и допуск версии в прод.
 > Он действует и при прямом вызове отдельного скилла. Карта ниже — полный
@@ -439,7 +439,7 @@ A/B для изменения scope, затем в дельту фундамен
 
 ## Реестр артефактов
 
-<!-- зафиксировано под process-core 0.10.0 — поменял таблицы ниже, бампни
+<!-- зафиксировано под process-core 0.10.1 — поменял таблицы ниже, бампни
      версию в plugins/process-core/.claude-plugin/plugin.json и это число
      тем же проходом (PROCESS.md, «Зачем строка версии») -->
 
@@ -481,6 +481,7 @@ A/B для изменения scope, затем в дельту фундамен
 | `market` | `docs/product/MARKET.md` | committed |
 | `personas` | `docs/product/PERSONAS.md` | committed |
 | `interview_report` | `docs/product/INTERVIEWS.md` | committed |
+| `synthetic_customer_critique` | `.process/synthetic_customer_critique.md` | scratch |
 | `lean_canvas` | `docs/product/LEAN_CANVAS.md` | committed |
 | `story_map` | `docs/product/STORY_MAP.md` | committed |
 | `backlog` | `docs/product/BACKLOG.md` | committed |
