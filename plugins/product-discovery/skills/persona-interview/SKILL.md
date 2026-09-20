@@ -19,7 +19,7 @@ metadata:
 Это synthetic critique, а не разговор с человеком. Любые реплики, оценки и
 возражения — `assumption`; они формируют вопросы для field discovery, но не
 доказывают спрос, willingness-to-pay или готовность к build.
-Не используй для willingness to pay, решения о build или market evidence.
+не используй для willingness to pay, решения о build или market evidence.
 
 ## Порядок
 
